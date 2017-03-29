@@ -15,6 +15,6 @@ sudo yum install -y unzip
 
 # Get Files
 
-git clone https://github.com/arturld/awsDBRDownload.git
-cd awsDBRanalysis
+git clone https://github.com/arturlr/DBRConsolidation
+cd DBRConsolidation
 ./run.sh

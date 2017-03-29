@@ -15,10 +15,10 @@ SECRET_KEY={$2}
 
 # Creating AWS Config
 run sudo mkdir ~/.aws
-run printf "[default]\naws_access_key_id=$ACCESS_KEY\naws_secret_access_key=$SECRET_KEY" > credentials
-run printf "[default]\nregion=us-east-1\noutput=json" > config
-run sudo mv credentials .aws/.
-run sudo mv config .aws/.
+run printf "[default]\naws_access_key_id=$ACCESS_KEY\naws_secret_access_key=$SECRET_KEY" > ~/credentials
+run printf "[default]\nregion=us-east-1\noutput=json" > ~/config
+run sudo mv ~/credentials ~/.aws/.
+run sudo mv ~/config ~/.aws/.
 
 # Add Drill to PATH
 export PATH=/opt/drill/bin:$PATH
