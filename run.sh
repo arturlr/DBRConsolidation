@@ -30,7 +30,7 @@ UPLOAD_BUCKET=artrodri
 DBRFILEFS_PARQUET="aws-billing-detailed-line-items-with-resources-and-tags-$(date +%Y-%m).parquet"
 DBRFILEFS_CONSOLIDATE="aws-billing-detailed-line-items-with-resources-and-tags-consolidated-$(date +%Y-%m).csv"
 
-PAYERSACCOUNTS="514046899996,artrodri;745716881695,phours"
+PAYERSACCOUNTS={$3}
 ACCTS=$(echo $PAYERSACCOUNTS | tr ";" "\n")
 
 for acct in $ACCTS
