@@ -10,8 +10,8 @@ function run {
     return $status
 }
 
-ACCESS_KEY={$1}
-SECRET_KEY={$2}
+ACCESS_KEY=$1
+SECRET_KEY=$2
 
 # Creating AWS Config
 run sudo mkdir ~/.aws
@@ -30,7 +30,7 @@ UPLOAD_BUCKET=artrodri
 DBRFILEFS_PARQUET="aws-billing-detailed-line-items-with-resources-and-tags-$(date +%Y-%m).parquet"
 DBRFILEFS_CONSOLIDATE="aws-billing-detailed-line-items-with-resources-and-tags-consolidated-$(date +%Y-%m).csv"
 
-PAYERSACCOUNTS={$3}
+PAYERSACCOUNTS=$3
 ACCTS=$(echo $PAYERSACCOUNTS | tr ";" "\n")
 
 for acct in $ACCTS
@@ -83,9 +83,9 @@ run sudo hostname localhost
 ## Also DBR columns are different depending on Linked Account or without hence alter column map based on that
 echo "Converting to Parquet"
 if [ $DBR_BLENDED -eq 1 ]; then
-   run ./DBRdashboard/csv2parquet.py $TEMPDIR$DBRFILEFS_CONSOLIDATE $TEMPDIR$DBRFILEFS_PARQUET --column-map "InvoiceID" "invoiceid" "PayerAccountId" "payeraccountid" "LinkedAccountId" "linkedaccountid" "RecordType" "recordtype" "RecordId" "recordid" "ProductName" "productname" "RateId" "rateid" "SubscriptionId" "subscriptionid" "PricingPlanId" "pricingplanid" "UsageType" "usagetype" "Operation" "operation" "AvailabilityZone" "availabilityzone" "ReservedInstance" "reservedinstance" "ItemDescription" "itemdescription" "UsageStartDate" "usagestartdate" "UsageEndDate" "usageenddate" "UsageQuantity" "usagequantity" "BlendedRate" "blendedrate" "BlendedCost" "blendedcost" "UnBlendedRate" "unblendedrate" "UnBlendedCost" "unblendedcost"
+   run ~/DBRConsolidation/csv2parquet.py $TEMPDIR$DBRFILEFS_CONSOLIDATE $TEMPDIR$DBRFILEFS_PARQUET --column-map "InvoiceID" "invoiceid" "PayerAccountId" "payeraccountid" "LinkedAccountId" "linkedaccountid" "RecordType" "recordtype" "RecordId" "recordid" "ProductName" "productname" "RateId" "rateid" "SubscriptionId" "subscriptionid" "PricingPlanId" "pricingplanid" "UsageType" "usagetype" "Operation" "operation" "AvailabilityZone" "availabilityzone" "ReservedInstance" "reservedinstance" "ItemDescription" "itemdescription" "UsageStartDate" "usagestartdate" "UsageEndDate" "usageenddate" "UsageQuantity" "usagequantity" "BlendedRate" "blendedrate" "BlendedCost" "blendedcost" "UnBlendedRate" "unblendedrate" "UnBlendedCost" "unblendedcost"
 else
-   run ./DBRdashboard/csv2parquet.py $TEMPDIR$DBRFILEFS_CONSOLIDATE $TEMPDIR$DBRFILEFS_PARQUET --column-map "InvoiceID" "invoiceid" "PayerAccountId" "payeraccountid" "LinkedAccountId" "linkedaccountid" "RecordType" "recordtype" "RecordId" "recordid" "ProductName" "productname" "RateId" "rateid" "SubscriptionId" "subscriptionid" "PricingPlanId" "pricingplanid" "UsageType" "usagetype" "Operation" "operation" "AvailabilityZone" "availabilityzone" "ReservedInstance" "reservedinstance" "ItemDescription" "itemdescription" "UsageStartDate" "usagestartdate" "UsageEndDate" "usageenddate" "UsageQuantity" "usagequantity" "Rate" "rate" "Cost" "cost"
+   run ~/DBRConsolidation/csv2parquet.py $TEMPDIR$DBRFILEFS_CONSOLIDATE $TEMPDIR$DBRFILEFS_PARQUET --column-map "InvoiceID" "invoiceid" "PayerAccountId" "payeraccountid" "LinkedAccountId" "linkedaccountid" "RecordType" "recordtype" "RecordId" "recordid" "ProductName" "productname" "RateId" "rateid" "SubscriptionId" "subscriptionid" "PricingPlanId" "pricingplanid" "UsageType" "usagetype" "Operation" "operation" "AvailabilityZone" "availabilityzone" "ReservedInstance" "reservedinstance" "ItemDescription" "itemdescription" "UsageStartDate" "usagestartdate" "UsageEndDate" "usageenddate" "UsageQuantity" "usagequantity" "Rate" "rate" "Cost" "cost"
    fi
 
 ## Upload Parquet DBR back to bucket
