@@ -14,7 +14,7 @@ sudo yum install -y aws-cli
 sudo yum install -y unzip
 
 # Get Files
-
+cd ~
 git clone https://github.com/arturlr/DBRConsolidation
 cd DBRConsolidation
 ./run.sh

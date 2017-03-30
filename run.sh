@@ -13,8 +13,6 @@ function run {
 ACCESS_KEY=$1
 SECRET_KEY=$2
 
-run whoami > me.txt
-
 # Creating AWS Config
 run sudo mkdir ~/.aws
 run printf "[default]\naws_access_key_id=$ACCESS_KEY\naws_secret_access_key=$SECRET_KEY" > ~/credentials
@@ -94,3 +92,4 @@ else
 echo "/media/ephemeral0/$DBRFILEFS_PARQUET s3://${UPLOAD_BUCKET}/dbr-parquet/${array[0]}-$(date +%Y%m)"
 run aws s3 sync /media/ephemeral0/$DBRFILEFS_PARQUET s3://${UPLOAD_BUCKET}/dbr-parquet/${array[0]}-$(date +%Y%m) --quiet
 
+echo "Finish upload to S3"
