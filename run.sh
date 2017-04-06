@@ -70,7 +70,13 @@ do
       continue
    fi
 
-   cat $TEMPDIR$DBRFILEFS_CSV >> $TEMPDIR$DBRFILEFS_CONSOLIDATE
+## if the consolidate file does not exist add the headers only
+   if [[ ! -f "$TEMPDIR$DBRFILEFS_CONSOLIDATE" ]]; then
+      head -1 $TEMPDIR$DBRFILEFS_CSV > $TEMPDIR$DBRFILEFS_CONSOLIDATE
+   fi 
+
+## Add the content with no headers
+   sed 1d $TEMPDIR$DBRFILEFS_CSV >> $TEMPDIR$DBRFILEFS_CONSOLIDATE
    rm $TEMPDIR$DBRFILEFS_CSV
 
 done
