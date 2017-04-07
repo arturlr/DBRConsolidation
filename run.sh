@@ -71,7 +71,7 @@ do
    fi
 
 ## Check if DBR file contains Blended / Unblended Rates
-    DBR_BLENDED=`head -1 $TEMPDIR$DBRFILEFS_CONSOLIDATE | grep UnBlended | wc -l`
+    DBR_BLENDED=`head -1 $TEMPDIR$DBRFILEFS_CSV | grep UnBlended | wc -l`
 
 ## Column map requried as Athena only works with lowercase columns.
 ## Also DBR columns are different depending on Linked Account or without hence alter column map based on that
