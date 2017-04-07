@@ -37,7 +37,8 @@ try:
         STORED AS PARQUET
          LOCATION '%s'
         """ % (sys.argv[2],sys.argv[1])
-        cursos.execute(query)
+        print(query)
+        cursor.execute(query)
         print(cursor.description)
 finally:
     conn.close()
