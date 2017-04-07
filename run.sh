@@ -71,14 +71,17 @@ do
    fi
 
 ## Check if DBR file contains Blended / Unblended Rates
+    head -1 $TEMPDIR$DBRFILEFS_CSV
     DBR_BLENDED=`head -1 $TEMPDIR$DBRFILEFS_CSV | grep UnBlended | wc -l`
 
 ## Column map requried as Athena only works with lowercase columns.
 ## Also DBR columns are different depending on Linked Account or without hence alter column map based on that
     echo "Converting to Parquet"
     if [ $DBR_BLENDED -eq 1 ]; then
+        echo "Blended"
         run ~/DBRConsolidation/csv2parquet.py $TEMPDIR$DBRFILEFS_CSV $TEMPDIR$DBRFILEFS_PARQUET --column-map "InvoiceID" "invoiceid" "PayerAccountId" "payeraccountid" "LinkedAccountId" "linkedaccountid" "RecordType" "recordtype" "RecordId" "recordid" "ProductName" "productname" "RateId" "rateid" "SubscriptionId" "subscriptionid" "PricingPlanId" "pricingplanid" "UsageType" "usagetype" "Operation" "operation" "AvailabilityZone" "availabilityzone" "ReservedInstance" "reservedinstance" "ItemDescription" "itemdescription" "UsageStartDate" "usagestartdate" "UsageEndDate" "usageenddate" "UsageQuantity" "usagequantity" "BlendedRate" "blendedrate" "BlendedCost" "blendedcost" "UnBlendedRate" "unblendedrate" "UnBlendedCost" "unblendedcost"
     else
+       echo "Cost" 
        run ~/DBRConsolidation/csv2parquet.py $TEMPDIR$DBRFILEFS_CSV $TEMPDIR$DBRFILEFS_PARQUET --column-map "InvoiceID" "invoiceid" "PayerAccountId" "payeraccountid" "LinkedAccountId" "linkedaccountid" "RecordType" "recordtype" "RecordId" "recordid" "ProductName" "productname" "RateId" "rateid" "SubscriptionId" "subscriptionid" "PricingPlanId" "pricingplanid" "UsageType" "usagetype" "Operation" "operation" "AvailabilityZone" "availabilityzone" "ReservedInstance" "reservedinstance" "ItemDescription" "itemdescription" "UsageStartDate" "usagestartdate" "UsageEndDate" "usageenddate" "UsageQuantity" "usagequantity" "Rate" "rate" "Cost" "cost"
     fi
 

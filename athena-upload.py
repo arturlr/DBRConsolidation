@@ -37,7 +37,6 @@ try:
         STORED AS PARQUET
          LOCATION '%s'
         """ % (sys.argv[2],sys.argv[1])
-        print(query)
         cursor.execute(query)
         print(cursor.description)
 finally:
