@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
 import boto3
+import sys
 from pyathenajdbc import connect
 
-conn = connect(s3_staging_dir='s3://artrodri/dbr-parquet/201704/',region_name='us-east-1')
+conn = connect(s3_staging_dir=sys.argv[1],region_name='us-east-1')
 try:
     with conn.cursor() as cursor:
         cursor.execute("""
@@ -11,8 +12,8 @@ try:
         """)
         print(cursor.description)
 
-        cursor.execute("""
-        create external table if not exists dbr.autodbr_201704 (
+        query = """
+        create external table if not exists dbr.autodbr_%s_201704 (
         InvoiceID string,
         PayerAccountId string,
         LinkedAccountId string,
@@ -34,8 +35,9 @@ try:
         Cost string
         )
         STORED AS PARQUET
-         LOCATION 's3://artrodri/dbr-parquet/201704/'
-        """)
+         LOCATION '%s'
+        """ % (sys.argv[2],sys.argv[1])
+        cursos.execute(query)
         print(cursor.description)
 finally:
     conn.close()

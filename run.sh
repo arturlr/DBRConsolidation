@@ -83,11 +83,11 @@ do
     fi
 
 ## Upload Parquet DBR back to bucket
-    echo "/media/ephemeral0/$DBRFILEFS_PARQUET s3://${UPLOAD_BUCKET}/dbr-parquet/${array[0]}-$(date +%Y%m)"
-    run aws s3 sync /media/ephemeral0/$DBRFILEFS_PARQUET s3://${UPLOAD_BUCKET}/dbr-parquet/${array[0]}-$(date +%Y%m) --quiet
+    echo "/media/ephemeral0/$DBRFILEFS_PARQUET s3://${UPLOAD_BUCKET}/dbr-parquet-${array[0]}/$(date +%Y%m)"
+    run aws s3 sync /media/ephemeral0/$DBRFILEFS_PARQUET s3://${UPLOAD_BUCKET}/dbr-parquet-${array[0]}/$(date +%Y%m) --quiet
 
     echo "Finish upload to S3"
 
-    ~/DBRConsolidation/athena-upload.py "s3://${UPLOAD_BUCKET}/dbr-parquet/${array[0]}-$(date +%Y%m)"  
+    ~/DBRConsolidation/athena-upload.py "s3://${UPLOAD_BUCKET}/dbr-parquet-${array[0]}/$(date +%Y%m)" "${array[0]}" 
 
 done
