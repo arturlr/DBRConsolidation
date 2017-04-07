@@ -88,6 +88,6 @@ do
 
     echo "Athena upload"
 
-    ~/DBRConsolidation/athena-upload.py "s3://${UPLOAD_BUCKET}/dbr-parquet-${array[0]}/$(date +%Y%m)" "${array[0]}" 
+    ~/DBRConsolidation/athena-upload.py "s3://${UPLOAD_BUCKET}/dbr-parquet-${array[0]}/$(date +%Y%m)" "${array[0]}" $DBR_BLENDED
 
 done

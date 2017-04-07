@@ -11,8 +11,8 @@ try:
         create database if not exists dbr
         """)
         print(cursor.description)
-
-        query = """
+        if (sys.argv[3] == 0):
+           query = """
         create external table if not exists dbr.autodbr_%s_201704 (
         InvoiceID string,
         PayerAccountId string,
@@ -32,11 +32,42 @@ try:
         UsageEndDate string,
         UsageQuantity string,
         Rate string,
-        Cost string
+        Cost string,
+        ResourceId string
         )
         STORED AS PARQUET
          LOCATION '%s'
-        """ % (sys.argv[2],sys.argv[1])
+           """ % (sys.argv[2],sys.argv[1])
+        else:
+           query = """
+        create external table if not exists dbr.autodbr_%s_201704 (
+        InvoiceID string,
+        PayerAccountId string,
+        LinkedAccountId string,
+        RecordType string,
+        RecordId string,
+        ProductName string,
+        RateId string,
+        SubscriptionId string,
+        PricingPlanId string,
+        UsageType string,
+        Operation string,
+        AvailabilityZone string,
+        ReservedInstance string,
+        ItemDescription string,
+        UsageStartDate string,
+        UsageEndDate string,
+        UsageQuantity string,
+        BlendedRate string,
+        BlendedCost string,
+        UnBlendedRate string,
+        UnBlendedCost string,
+        ResourceId string 
+        )
+        STORED AS PARQUET
+         LOCATION '%s'
+           """ % (sys.argv[2],sys.argv[1])
+        
         cursor.execute(query)
         print(cursor.description)
 finally:
