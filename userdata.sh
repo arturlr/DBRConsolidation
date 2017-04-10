@@ -14,18 +14,12 @@ sudo yum install -y unzip
 sudo yum install -y git
 
 # Pre-Reqs for PyAthenaJDBC
-sudo yum install -y python35-devel
 curl -O https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py --user
 ~/.local/bin/pip install -U pip
-sudo yum install -y gcc
-sudo yum install -y gcc-c++
 
 # Prep Libraries
 ~/.local/bin/pip install boto3
-sudo cp /root/.local/lib/python3.5/site-packages/six.py /usr/local/lib/python3.5/site-packages
-~/.local/bin/pip install PyAthenaJDBC
-
 
 # Get Files
 cd ~

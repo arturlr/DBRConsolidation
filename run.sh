@@ -33,6 +33,9 @@ ACCTS=$(echo $PAYERSACCOUNTS | tr ";" "\n")
 
 run sudo hostname localhost
 
+# Start Athena Proxy
+PORT=10000 java -cp ./athenaproxy/athenaproxy.jar com.getredash.awsathena_proxy.API . &
+
 for acct in $ACCTS
 do
    IFS=', ' read -r -a array <<< "$acct"
@@ -84,10 +87,10 @@ do
 
 ## Upload Parquet DBR back to bucket
     echo "uploading to s3://${UPLOAD_BUCKET}/dbr-parquet-${array[0]}/$(date +%Y%m)"
-    run aws s3 sync /media/ephemeral0/$DBRFILEFS_PARQUET s3://${UPLOAD_BUCKET}/dbr-parquet-${array[0]}/$(date +%Y%m) --quiet
+    run aws s3 sync /media/ephemeral0/$DBRFILEFS_PARQUET s3://${UPLOAD_BUCKET}/dbr-parquet/${array[0]}-$(date +%Y%m) --quiet
 
     echo "Athena upload"
 
-    ~/DBRConsolidation/athena-upload.py "s3://${UPLOAD_BUCKET}/dbr-parquet-${array[0]}/$(date +%Y%m)" "${array[0]}" $DBR_BLENDED
+    ~/DBRConsolidation/athena-upload.py "s3://${UPLOAD_BUCKET}/dbr-parquet/${array[0]}-$(date +%Y%m)" "${array[0]}" $DBR_BLENDED
 
 done
