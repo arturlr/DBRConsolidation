@@ -13,7 +13,7 @@ class Athena:
 
     def Request(self,query):
         AthenaUrl = "jdbc:awsathena://athena.%s.amazonaws.com:443" % (self.region)
-        S3StagingDir= "s3://%s/%s" % (sys.argv[3],self.account)
+        S3StagingDir= "s3://%s/%s" % (sys.argv[4],self.account)
 
         conditionsSetURL = "http://127.0.0.1:10000/query"
         athQuery={'awsAccessKey': self.key,'awsSecretKey': self.secret,'athenaUrl': AthenaUrl,'s3StagingDir': S3StagingDir,'query': query}
@@ -24,11 +24,11 @@ class Athena:
 
 
 
-ath = Athena("AKIAIZUDOT73KMDKL2QA","ptVurpkOaaB4y0S4X/OStqLIAPnG33Z1BEqC13gO","us-east-1","514046899996")
+ath = Athena(sys.argv[1],sys.argv[2],"us-east-1","514046899996")
 
 ath.Request("create database if not exists dbr")
 
-if (sys.argv[3] == 0):
+if (sys.argv[5] == 0):
     query = """
     CREATE EXTERNAL TABLE IF NOT EXISTS dbr.autodbr_%s_201704 (
       `invoiceid` string,
@@ -53,7 +53,7 @@ if (sys.argv[3] == 0):
       `resourceid` string
     )
     STORED AS PARQUET;
-    """ % (sys.argv[2],sys.argv[1])
+    """ % (sys.argv[4],sys.argv[3])
 else:
     query = """
     create external table if not exists `dbr.autodbr_%s_201704` (
@@ -80,7 +80,7 @@ else:
     `UnBlendedCost` string
     )
     STORED AS PARQUET
-    """ % (sys.argv[2],sys.argv[1])
+    """ % (sys.argv[4],sys.argv[3])
 
 ath.Request(query)
 
