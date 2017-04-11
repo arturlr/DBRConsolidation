@@ -3,6 +3,10 @@ import json
 import sys
 import urllib.request, urllib.parse
 import boto3
+import configparser
+import configparser
+from datetime import date
+
 
 class Athena:
     def __init__(self,key,secret,region,account):
@@ -26,74 +30,39 @@ class Athena:
         print(response.read().decode('utf8'))
 
 
+# Initializing Variables
+config = configparser.ConfigParser()
+config.read('DBRconsolidation.ini')
+
+today = date.today()
+date_suffix_athena = today.strftime("%Y_%m")
+date_suffix_bucket = today.strftime("%Y-%m")
+# ${ACCESS_KEY} ${SECRET_KEY} ${UPLOAD_BUCKET} ${AWS_ACCOUNT_ID} ${DBR_BLENDED}
 aws_access_key = sys.argv[1]
 aws_secret_key = sys.argv[2]
 upload_bucket = sys.argv[3]
-date_suffix = sys.argv[4]
-dbr_account_id = sys.argv[5]
-dbr_blended = sys.argv[6]
+dbr_account_id = sys.argv[4]
+dbr_blended = sys.argv[5]
 
 client = boto3.client("sts", aws_access_key_id=sys.argv[1], aws_secret_access_key=sys.argv[2])
 account_id = client.get_caller_identity()["Account"]
 
+# Initializating Athena
 ath = Athena(aws_access_key,aws_secret_key,"us-east-1",account_id)
-ath.Request("create database if not exists dbr")
+
+query = config['athena']['dbrCreation']
+ath.Request(query)
 
 if (dbr_blended == 0):
-    query = """
-    CREATE EXTERNAL TABLE IF NOT EXISTS dbr.autodbr_%s_%s (
-      `invoiceid` string,
-      `payeraccountid` string,
-      `linkedaccountid` string,
-      `recordtype` string,
-      `recordid` string,
-      `productname` string,
-      `rateid` string,
-      `subscriptionid` string,
-      `pricingplanid` string,
-      `usagetype` string,
-      `operation` string,
-      `availabilityzone` string,
-      `reservedinstance` string,
-      `itemdescription` string,
-      `usagestartdate` string,
-      `usageenddate` string,
-      `usagequantity` string,
-      `rate` string,
-      `cost` string,
-      `resourceid` string
-    )
-    STORED AS PARQUET
-    LOCATION 's3://%s/dbr-parquet/%s-%s/'
-    """ % (dbr_account_id,date_suffix,upload_bucket,dbr_account_id,date_suffix)
+    query = config['athena']['dbrTable']
 else:
-    query = """
-    create external table if not exists `dbr.autodbr_%s_%s` (
-    `InvoiceID` string,
-    `PayerAccountId` string,
-    `LinkedAccountId` string,
-    `RecordType` string,
-    `RecordId` string,
-    `ProductName` string,
-    `RateId` string,
-    `SubscriptionId` string,
-    `PricingPlanId` string,
-    `UsageType` string,
-    `Operation` string,
-    `AvailabilityZone` string,
-    `ReservedInstance` string,
-    `ItemDescription` string,
-    `UsageStartDate` string,
-    `UsageEndDate` string,
-    `UsageQuantity` string,
-    `BlendedRate` string,
-    `BlendedCost` string,
-    `UnBlendedRate` string,
-    `UnBlendedCost` string
-    )
-    STORED AS PARQUET
-    LOCATION 's3://%s/dbr-parquet/%s-%s/'
-    """ % (dbr_account_id,date_suffix,upload_bucket,dbr_account_id,date_suffix)
+    query = config['athena']['dbrBlendedTable']
 
+query.replace("**BUCKET**",upload_bucket)
+query.replace("**ACCT**",dbr_account_id,2)
+query.replace("**DATEBUCKET**",date_suffix_bucket)
+query.replace("**DATETABLE**",date_suffix_athena)
 ath.Request(query)
+
+# Getting data and collecting metrics
 
