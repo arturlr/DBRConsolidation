@@ -9,11 +9,12 @@ class Athena:
         self.secret = secret
         self.region = region
         self.account = account
+        self.s3bucket = "aws-athena-query-results-%s-%s" % (account,region)
 
 
     def Request(self,query):
         AthenaUrl = "jdbc:awsathena://athena.%s.amazonaws.com:443" % (self.region)
-        S3StagingDir= "s3://%s/%s" % (sys.argv[4],self.account)
+        S3StagingDir = self.s3bucket
 
         conditionsSetURL = "http://127.0.0.1:10000/query"
         athQuery={'awsAccessKey': self.key,'awsSecretKey': self.secret,'athenaUrl': AthenaUrl,'s3StagingDir': S3StagingDir,'query': query}
@@ -22,15 +23,23 @@ class Athena:
         response = urllib.request.urlopen(req)
         print(response.read().decode('utf8'))
 
+aws_access_key = sys.argv[1]
+aws_secret_key = sys.argv[2]
+upload_bucket = sys.argv[3]
+date_suffix = sys.argv[4]
+dbr_blended = sys.argv[5]
 
+client = boto3.client("sts", aws_access_key_id=sys.argv[1], aws_secret_access_key=sys.argv[2])
+print(client.get_caller_identity())
+account_id = client.get_caller_identity()["Account"]
 
-ath = Athena(sys.argv[1],sys.argv[2],"us-east-1","514046899996")
+ath = Athena(aws_access_key,aws_secret_key,"us-east-1",account_id)
 
 ath.Request("create database if not exists dbr")
 
-if (sys.argv[5] == 0):
+if (dbr_blended == 0):
     query = """
-    CREATE EXTERNAL TABLE IF NOT EXISTS dbr.autodbr_%s_201704 (
+    CREATE EXTERNAL TABLE IF NOT EXISTS dbr.autodbr_%s_%s (
       `invoiceid` string,
       `payeraccountid` string,
       `linkedaccountid` string,
@@ -52,11 +61,12 @@ if (sys.argv[5] == 0):
       `cost` string,
       `resourceid` string
     )
-    STORED AS PARQUET;
-    """ % (sys.argv[4],sys.argv[3])
+    STORED AS PARQUET
+    LOCATION 's3://%s/dbr-parquet/%s-%s/'
+    """ % (account_id,date_suffix,upload_bucket,account_id,date_suffix)
 else:
     query = """
-    create external table if not exists `dbr.autodbr_%s_201704` (
+    create external table if not exists `dbr.autodbr_%s_%s` (
     `InvoiceID` string,
     `PayerAccountId` string,
     `LinkedAccountId` string,
@@ -80,7 +90,8 @@ else:
     `UnBlendedCost` string
     )
     STORED AS PARQUET
-    """ % (sys.argv[4],sys.argv[3])
+    LOCATION 's3://%s/dbr-parquet/%s-%s/'
+    """ % (account_id,date_suffix,upload_bucket,account_id,date_suffix)
 
 ath.Request(query)
 

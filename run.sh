@@ -27,7 +27,7 @@ TEMPDIR="/media/ephemeral0/"
 #TEMPDIR="/temp/"
 
 UPLOAD_BUCKET=artrodri
-
+DATE_SUFFIX=$(date +%Y%m)
 PAYERSACCOUNTS=$3
 ACCTS=$(echo $PAYERSACCOUNTS | tr ";" "\n")
 
@@ -43,18 +43,21 @@ do
       echo "Missing parameter for ${acct}"
       continue
    fi
-   DBRFILES3="s3://${array[1]}/${array[0]}-aws-billing-detailed-line-items-with-resources-and-tags-$(date +%Y-%m).csv.zip"
-   DBRFILEFS="${array[0]}-aws-billing-detailed-line-items-with-resources-and-tags-$(date +%Y-%m).csv.zip"
-   DBRFILEFS_CSV="${array[0]}-aws-billing-detailed-line-items-with-resources-and-tags-$(date +%Y-%m).csv"
-   DBRFILEFS_PARQUET="${array[0]}-aws-billing-detailed-line-items-with-resources-and-tags-$(date +%Y-%m).parquet"
+   AWS_ACCOUNT_ID=${array[0]}
+   DBR_BUCKET=${array[1]}
+   
+   DBRFILES3="s3://$DBR_BUCKET/$AWS_ACCOUNT_ID-aws-billing-detailed-line-items-with-resources-and-tags-$DATE_SUFFIX.csv.zip"
+   DBRFILEFS="$AWS_ACCOUNT_ID-aws-billing-detailed-line-items-with-resources-and-tags-$DATE_SUFFIX.csv.zip"
+   DBRFILEFS_CSV="$AWS_ACCOUNT_ID-aws-billing-detailed-line-items-with-resources-and-tags-$DATE_SUFFIX.csv"
+   DBRFILEFS_PARQUET="$AWS_ACCOUNT_ID-aws-billing-detailed-line-items-with-resources-and-tags-$DATE_SUFFIX.parquet"
    echo $DBRFILES3
 
 ## Assume role to download the files
-   run aws sts assume-role --role-arn arn:aws:iam::${array[0]}:role/DBRDownload --role-session-name "DBRRole" > ${array[0]}-assume-role-output.txt
+   run aws sts assume-role --role-arn arn:aws:iam::$AWS_ACCOUNT_ID:role/DBRDownload --role-session-name "DBRRole" > $AWS_ACCOUNT_ID-assume-role-output.txt
 
-   aws_secret_key=`cat "${array[0]}-assume-role-output.txt" | grep SecretAccessKey | cut -d':' -f2 | sed 's/[^0-9A-Za-z/+=]*//g'`
-   aws_access_key=`cat "${array[0]}-assume-role-output.txt" | grep AccessKeyId | cut -d':' -f2 | sed 's/[^0-9A-Z]*//g'`
-   aws_token_key=`cat "${array[0]}-assume-role-output.txt" | grep SessionToken | cut -d':' -f2 | sed 's/[^0-9A-Za-z/+=]*//g'`
+   aws_secret_key=`cat "$AWS_ACCOUNT_ID-assume-role-output.txt" | grep SecretAccessKey | cut -d':' -f2 | sed 's/[^0-9A-Za-z/+=]*//g'`
+   aws_access_key=`cat "$AWS_ACCOUNT_ID-assume-role-output.txt" | grep AccessKeyId | cut -d':' -f2 | sed 's/[^0-9A-Z]*//g'`
+   aws_token_key=`cat "$AWS_ACCOUNT_ID-assume-role-output.txt" | grep SessionToken | cut -d':' -f2 | sed 's/[^0-9A-Za-z/+=]*//g'`
 
    export AWS_ACCESS_KEY_ID=${aws_access_key}
    export AWS_SECRET_ACCESS_KEY=${aws_secret_key}
@@ -86,11 +89,12 @@ do
     fi
 
 ## Upload Parquet DBR back to bucket
-    echo "uploading to s3://${UPLOAD_BUCKET}/dbr-parquet-${array[0]}/$(date +%Y%m)"
-    run aws s3 sync /media/ephemeral0/$DBRFILEFS_PARQUET s3://${UPLOAD_BUCKET}/dbr-parquet/${array[0]}-$(date +%Y%m) --quiet
+    echo "uploading to s3://$UPLOAD_BUCKET/dbr-parquet/$AWS_ACCOUNT_ID-$DATE_SUFFIX"
+    run aws s3 sync /media/ephemeral0/$DBRFILEFS_PARQUET s3://$UPLOAD_BUCKET/dbr-parquet/$AWS_ACCOUNT_ID-$DATE_SUFFIX --quiet
 
     echo "Athena upload"
 
-    ~/DBRConsolidation/athena-upload.py $ACCESS_KEY $SECRET_KEY "s3://${UPLOAD_BUCKET}/dbr-parquet/${array[0]}-$(date +%Y%m)" "${array[0]}" $DBR_BLENDED
+    ~/DBRConsolidation/athena-upload.py $ACCESS_KEY $SECRET_KEY $UPLOAD_BUCKET $DATE_SUFFIX $DBR_BLENDED
+##    ~/DBRConsolidation/athena-upload.py $ACCESS_KEY $SECRET_KEY "s3://${UPLOAD_BUCKET}/dbr-parquet/${array[0]}-$(date +%Y%m)" "${array[0]}" $DBR_BLENDED
 
 done
