@@ -50,7 +50,7 @@ do
    DBRFILEFS="${AWS_ACCOUNT_ID}-aws-billing-detailed-line-items-with-resources-and-tags-${DATE_SUFFIX}.csv.zip"
    DBRFILEFS_CSV="${AWS_ACCOUNT_ID}-aws-billing-detailed-line-items-with-resources-and-tags-${DATE_SUFFIX}.csv"
    DBRFILEFS_PARQUET="${AWS_ACCOUNT_ID}-aws-billing-detailed-line-items-with-resources-and-tags-${DATE_SUFFIX}.parquet"
-   echo $DBRFILES3
+   echo "Working on ${AWS_ACCOUNT_ID} for ${DATE_SUFFIX}"
 
 ## Assume role to download the files
    run aws sts assume-role --role-arn arn:aws:iam::${AWS_ACCOUNT_ID}:role/DBRDownload --role-session-name "DBRRole" > ${AWS_ACCOUNT_ID}-assume-role-output.txt
@@ -64,6 +64,7 @@ do
    export AWS_SESSION_TOKEN=${aws_token_key}
 
 ## Fetch current DBR file and unzip
+   echo "Fetching DBR at $DBRFILES3"
    run aws s3 cp $DBRFILES3 $TEMPDIR --quiet
    run unzip -qq $TEMPDIR$DBRFILEFS -d $TEMPDIR
 
