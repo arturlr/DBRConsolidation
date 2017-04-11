@@ -11,6 +11,7 @@ class Athena:
         self.region = region
         self.account = account
         self.s3bucket = "aws-athena-query-results-%s-%s" % (account,region)
+        print(self.s3bucket)
 
 
     def Request(self,query):
@@ -19,10 +20,12 @@ class Athena:
 
         conditionsSetURL = "http://127.0.0.1:10000/query"
         athQuery={'awsAccessKey': self.key,'awsSecretKey': self.secret,'athenaUrl': AthenaUrl,'s3StagingDir': S3StagingDir,'query': query}
+        print(athQuery)
         data = json.dumps(athQuery).encode('utf8')
         req = urllib.request.Request(conditionsSetURL,data=data,headers={'content-type': 'application/json'})
         response = urllib.request.urlopen(req)
         print(response.read().decode('utf8'))
+
 
 aws_access_key = sys.argv[1]
 aws_secret_key = sys.argv[2]
@@ -31,11 +34,9 @@ date_suffix = sys.argv[4]
 dbr_blended = sys.argv[5]
 
 client = boto3.client("sts", aws_access_key_id=sys.argv[1], aws_secret_access_key=sys.argv[2])
-print(client.get_caller_identity())
 account_id = client.get_caller_identity()["Account"]
 
 ath = Athena(aws_access_key,aws_secret_key,"us-east-1",account_id)
-
 ath.Request("create database if not exists dbr")
 
 if (dbr_blended == 0):
