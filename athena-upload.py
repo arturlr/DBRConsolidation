@@ -2,6 +2,7 @@
 import json
 import sys
 import urllib.request, urllib.parse
+import boto3
 
 class Athena:
     def __init__(self,key,secret,region,account):
