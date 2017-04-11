@@ -10,8 +10,7 @@ class Athena:
         self.secret = secret
         self.region = region
         self.account = account
-        self.s3bucket = "aws-athena-query-results-%s-%s" % (account,region)
-        print(self.s3bucket)
+        self.s3bucket = "s3://aws-athena-query-results-%s-%s/" % (account,region)
 
 
     def Request(self,query):
