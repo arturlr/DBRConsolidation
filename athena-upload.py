@@ -30,7 +30,8 @@ aws_access_key = sys.argv[1]
 aws_secret_key = sys.argv[2]
 upload_bucket = sys.argv[3]
 date_suffix = sys.argv[4]
-dbr_blended = sys.argv[5]
+dbr_account_id = sys.argv[5]
+dbr_blended = sys.argv[6]
 
 client = boto3.client("sts", aws_access_key_id=sys.argv[1], aws_secret_access_key=sys.argv[2])
 account_id = client.get_caller_identity()["Account"]
@@ -64,7 +65,7 @@ if (dbr_blended == 0):
     )
     STORED AS PARQUET
     LOCATION 's3://%s/dbr-parquet/%s-%s/'
-    """ % (account_id,date_suffix,upload_bucket,account_id,date_suffix)
+    """ % (dbr_account_id,date_suffix,upload_bucket,dbr_account_id,date_suffix)
 else:
     query = """
     create external table if not exists `dbr.autodbr_%s_%s` (
@@ -92,7 +93,7 @@ else:
     )
     STORED AS PARQUET
     LOCATION 's3://%s/dbr-parquet/%s-%s/'
-    """ % (account_id,date_suffix,upload_bucket,account_id,date_suffix)
+    """ % (dbr_account_id,date_suffix,upload_bucket,dbr_account_id,date_suffix)
 
 ath.Request(query)
 
