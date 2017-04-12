@@ -41,7 +41,9 @@ aws_access_key = sys.argv[1]
 aws_secret_key = sys.argv[2]
 upload_bucket = sys.argv[3]
 dbr_account_id = sys.argv[4]
-dbr_blended = sys.argv[5]
+dbr_blended = int(sys.argv[5])
+
+print(sys.argv)
 
 client = boto3.client("sts", aws_access_key_id=sys.argv[1], aws_secret_access_key=sys.argv[2])
 current_account_id = client.get_caller_identity()["Account"]
