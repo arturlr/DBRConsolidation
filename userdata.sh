@@ -13,13 +13,14 @@ sudo yum install -y aws-cli
 sudo yum install -y unzip
 sudo yum install -y git
 
-# Pre-Reqs for PyAthenaJDBC
+# Install and update pip
 curl -O https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py --user
 ~/.local/bin/pip install -U pip
 
 # Prep Libraries
 ~/.local/bin/pip install boto3
+~/.local/bin/pip install cloudwatch-fluent-metrics
 
 # Get Files
 cd ~

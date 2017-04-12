@@ -37,7 +37,6 @@ config.read('DBRconsolidation.ini')
 today = date.today()
 date_suffix_athena = today.strftime("%Y_%m")
 date_suffix_bucket = today.strftime("%Y-%m")
-# ${ACCESS_KEY} ${SECRET_KEY} ${UPLOAD_BUCKET} ${AWS_ACCOUNT_ID} ${DBR_BLENDED}
 aws_access_key = sys.argv[1]
 aws_secret_key = sys.argv[2]
 upload_bucket = sys.argv[3]
@@ -45,10 +44,10 @@ dbr_account_id = sys.argv[4]
 dbr_blended = sys.argv[5]
 
 client = boto3.client("sts", aws_access_key_id=sys.argv[1], aws_secret_access_key=sys.argv[2])
-account_id = client.get_caller_identity()["Account"]
+current_account_id = client.get_caller_identity()["Account"]
 
 # Initializating Athena
-ath = Athena(aws_access_key,aws_secret_key,"us-east-1",account_id)
+ath = Athena(aws_access_key,aws_secret_key,"us-east-1",current_account_id)
 
 query = config['athena']['dbrCreation']
 ath.Request(query)
@@ -58,10 +57,10 @@ if (dbr_blended == 0):
 else:
     query = config['athena']['dbrBlendedTable']
 
-query.replace("**BUCKET**",upload_bucket)
-query.replace("**ACCT**",dbr_account_id,2)
-query.replace("**DATEBUCKET**",date_suffix_bucket)
-query.replace("**DATETABLE**",date_suffix_athena)
+query = query.replace("**BUCKET**",upload_bucket)
+query = query.replace("**ACCT**",dbr_account_id,2)
+query = query.replace("**DATEBUCKET**",date_suffix_bucket)
+query = query.replace("**DATETABLE**",date_suffix_athena)
 ath.Request(query)
 
 # Getting data and collecting metrics
