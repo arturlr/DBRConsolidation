@@ -4,8 +4,8 @@ import sys
 import urllib.request, urllib.parse
 import boto3
 import configparser
-import configparser
 from datetime import date
+from fluentmetrics import FluentMetric
 
 
 class Athena:
@@ -54,8 +54,10 @@ ath.Request(query)
 
 if (dbr_blended == 0):
     query = config['athena']['dbrTable']
+    cost_column = 'cost'
 else:
     query = config['athena']['dbrBlendedTable']
+    cost_column = 'blendedcost'
 
 query = query.replace("**BUCKET**",upload_bucket)
 query = query.replace("**ACCT**",dbr_account_id,2)
@@ -65,3 +67,20 @@ ath.Request(query)
 
 # Getting data and collecting metrics
 
+for sec in config.sections():
+    if sec.lower().startswith("accountmetric"):
+        cwName = config[sec]['name']
+        if config[sec]['enabled'].lower() != 'true':
+            print('Not processing ' + cwName)
+            continue
+
+        sqlQuery=config[sec]['sqlQuery']
+        sqlQuery = sqlQuery.replace("**ACCT**", dbr_account_id)
+        sqlQuery = sqlQuery.replace("**DATETABLE**", date_suffix_athena)
+        rsp = ath.Request(sqlQuery)
+        print(cwName)
+        print(rsp)
+
+        # m = FluentMetric().with_namespace('DBRconsolidation') \
+        #    .with_dimension('accountid', dbr_account_id)
+        #m.log(MetricName=cwName, Value=boot_time, Unit='None')
