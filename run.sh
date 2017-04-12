@@ -79,6 +79,7 @@ do
 
 ## Check if DBR file contains Blended / Unblended Rates
     DBR_BLENDED=`head -1 $TEMPDIR$DBRFILEFS_CSV | grep UnBlended | wc -l`
+    head -1 $AWS_ACCOUNT_ID $TEMPDIR$DBRFILEFS_CSV
 
 ## Column map requried as Athena only works with lowercase columns.
 ## Also DBR columns are different depending on Linked Account or without hence alter column map based on that
@@ -95,5 +96,9 @@ do
 
     echo "Athena upload"
     ~/DBRConsolidation/athena-upload.py ${ACCESS_KEY} ${SECRET_KEY} ${UPLOAD_BUCKET} ${AWS_ACCOUNT_ID} ${DBR_BLENDED}
+
+    echo "Cleaning up"
+    sudo rm $DBRFILEFS
+    sudo rm $DBRFILEFS_CSV
 
 done
