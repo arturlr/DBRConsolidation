@@ -23,11 +23,13 @@ class Athena:
 
         conditionsSetURL = "http://127.0.0.1:10000/query"
         athQuery={'awsAccessKey': self.key,'awsSecretKey': self.secret,'athenaUrl': AthenaUrl,'s3StagingDir': S3StagingDir,'query': query}
-        print(athQuery)
+        # print(athQuery)
         data = json.dumps(athQuery).encode('utf8')
         req = urllib.request.Request(conditionsSetURL,data=data,headers={'content-type': 'application/json'})
         response = urllib.request.urlopen(req)
-        print(response.read().decode('utf8'))
+        jsonresult = json.loads(response.read().decode('utf8'))
+        # print(jsonresult)
+        return jsonresult
 
 
 # Initializing Variables
@@ -75,11 +77,13 @@ for sec in config.sections():
             continue
 
         sqlQuery=config[sec]['sqlQuery']
-        sqlQuery = sqlQuery.replace("**ACCT**", dbr_account_id)
-        sqlQuery = sqlQuery.replace("**DATETABLE**", date_suffix_athena)
+        sqlQuery = sqlQuery.replace("**COST**", cost_column,2)
+        sqlQuery = sqlQuery.replace("**ACCT**", dbr_account_id,2)
+        sqlQuery = sqlQuery.replace("**DATETABLE**", date_suffix_athena,2)
         rsp = ath.Request(sqlQuery)
-        print(cwName)
-        print(rsp)
+
+        for row in rsp['rows']:
+            print(row)
 
         # m = FluentMetric().with_namespace('DBRconsolidation') \
         #    .with_dimension('accountid', dbr_account_id)
