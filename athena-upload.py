@@ -83,8 +83,12 @@ for sec in config.sections():
         rsp = ath.Request(sqlQuery)
 
         for row in rsp['rows']:
-            print(row)
-
-        # m = FluentMetric().with_namespace('DBRconsolidation') \
-        #    .with_dimension('accountid', dbr_account_id)
-        #m.log(MetricName=cwName, Value=boot_time, Unit='None')
+            # print(row)
+            print(cwName)
+            value = round(float(row['value']), 2)
+            print('dimension: ' + row['dimension'])
+            print('value: ' + str(value))
+            m = FluentMetric().with_namespace('DBRconsolidation') \
+              .with_dimension('PayerAccountId', dbr_account_id)  \
+              .with_dimension('AccountId', row['dimension'])
+            m.log(MetricName=cwName, Value=value, Unit='None')
