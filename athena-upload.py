@@ -4,8 +4,9 @@ import sys
 import urllib.request, urllib.parse
 import boto3
 import configparser
+import re
 from datetime import date
-from fluentmetrics import FluentMetric
+from datetime import datetime
 
 
 class Athena:
@@ -32,9 +33,25 @@ class Athena:
         return jsonresult
 
 
+class CloudWatch:
+    def __init__(self):
+        CW_NAMESPACE = "DBRconsolidation"
+        self.connection = boto3.client('cloudwatch')
+
+    def send_metrics(self, dimensions, timestamp, metricname, value, unit):
+        MetricData = []
+        MetricData.append({'MetricName':metricname,'Dimensions':dimensions,'Value':value,'Unit':unit})
+        if (timestamp.year == date.today().year):
+            MetricData.append({'Timestamp': timestamp})
+
+        self.connection.put_metric_data(self.CW_NAMESPACE, MetricData)
+
 # Initializing Variables
 config = configparser.ConfigParser()
 config.read('DBRconsolidation.ini')
+
+# AWS AccountID
+reg = re.compile(r'([0-9]{12})',re.I)
 
 today = date.today()
 date_suffix_athena = today.strftime("%Y_%m")
@@ -69,6 +86,8 @@ ath.Request(query)
 
 # Getting data and collecting metrics
 
+cw = CloudWatch()
+
 for sec in config.sections():
     if sec.lower().startswith("accountmetric"):
         cwName = config[sec]['name']
@@ -83,12 +102,21 @@ for sec in config.sections():
         rsp = ath.Request(sqlQuery)
 
         for row in rsp['rows']:
-            # print(row)
-            print(cwName)
-            value = round(float(row['value']), 2)
-            print('dimension: ' + row['dimension'])
-            print('value: ' + str(value))
-            m = FluentMetric().with_namespace('DBRconsolidation') \
-              .with_dimension('PayerAccountId', dbr_account_id)  \
-              .with_dimension('AccountId', row['dimension'])
-            m.log(MetricName=cwName, Value=value, Unit='None')
+            dimensions = [{'AccountId': dbr_account_id}]
+
+            if 'value' not in row:
+                continue
+
+            value = round(float(row['value']), 5)
+
+            if 'date' not in row:
+                dt = datetime.strptime(row['date'] + ':0:0', "%Y-%m-%d %H:%M:%S")
+            else:
+                dt = datetime(1900,1,1)
+
+            if 'dimension' in row:
+                rst = reg.findall(rsp['dimension']) # Check if dimension is not an AccountId
+                if not rst:
+                    dimensions.append({'Service':row['dimension']})
+
+            cw.send_metrics(dimensions, dt, cwName, value, 'None')
