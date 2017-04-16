@@ -126,7 +126,8 @@ for sec in config.sections():
                     dimArray.append({'Name':'AccountId',
                                         'Value':row['linkedaccountid']})
             if 'productname' in row:
-                dimArray.append({'Name': 'ProductName',
-                                    'Value': row['productname']})
+                if row['productname'] != '':
+                    dimArray.append({'Name': 'ProductName',
+                        'Value': row['productname']})
 
             cw.send_metrics(dimArray, dt, cwName, value, 'None')
