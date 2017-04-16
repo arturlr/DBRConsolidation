@@ -49,7 +49,11 @@ class CloudWatch:
             print(jsonMetric)
             print(MetricData)
 
-        self.cwclient.put_metric_data(MetricData)
+            self.cwclient.put_metric_data(
+                Namespace='DBRTest',
+                MetricData=MetricData
+            )
+
 
 # Initializing Variables
 config = configparser.ConfigParser()
