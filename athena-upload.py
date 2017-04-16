@@ -40,14 +40,9 @@ class CloudWatch:
 
     def send_metrics(self, dimensions, timestamp, metricname, value, unit):
         MetricData = []
-        MetricData.append({'Namespace':self.CW_NAMESPACE,'MetricName':metricname,
-                           'Dimensions':dimensions,'Value':value,'Unit':unit})
+        MetricData.append({'MetricName':metricname,'Dimensions':dimensions,'Value':value,'Unit':unit})
         if (timestamp.year == datetime.today().year):
             MetricData.append({'Timestamp': timestamp})
-        else:
-            jsonMetric = json.dumps(MetricData)
-            print(jsonMetric)
-            print(MetricData)
 
             self.cwclient.put_metric_data(
                 Namespace='DBRTest',
