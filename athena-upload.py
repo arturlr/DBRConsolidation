@@ -102,7 +102,8 @@ for sec in config.sections():
         rsp = ath.Request(sqlQuery)
 
         for row in rsp['rows']:
-            dimensions = [{'AccountId': dbr_account_id}]
+            dimensions = [{'Name':'PayerAccountId',
+                           'Value':dbr_account_id}]
 
             if 'value' not in row:
                 continue
@@ -114,9 +115,13 @@ for sec in config.sections():
             else:
                 dt = datetime(1900,1,1)
 
-            if 'dimension' in row:
-                rst = reg.findall(rsp['dimension']) # Check if dimension is not an AccountId
-                if not rst:
-                    dimensions.append({'Service':row['dimension']})
+            if 'linkedaccountid' in row:
+                rst = reg.findall(row['linkedaccountid']) # Check AccountId has 12 digitis
+                if rst:
+                    dimensions.append([{'Name':'AccountId',
+                                        'Value':row['linkedaccountid']}])
+            if 'productname' in row:
+                dimensions.append([{'Name': 'ProductName',
+                                    'Value': row['productname']}])
 
             cw.send_metrics(dimensions, dt, cwName, value, 'None')
