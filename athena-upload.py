@@ -34,8 +34,8 @@ class Athena:
 
 class CloudWatch:
     def __init__(self):
-        #CW_NAMESPACE = "DBRconsolidation"
-        CW_NAMESPACE = "DBRtest"
+        #self.CW_NAMESPACE = "DBRconsolidation"
+        self.CW_NAMESPACE = "DBRtest"
         self.connection = boto3.client('cloudwatch')
 
     def send_metrics(self, dimensions, timestamp, metricname, value, unit):
