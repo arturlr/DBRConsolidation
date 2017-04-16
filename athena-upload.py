@@ -36,15 +36,16 @@ class CloudWatch:
     def __init__(self):
         #self.CW_NAMESPACE = "DBRconsolidation"
         self.CW_NAMESPACE = "DBRtest"
-        self.connection = boto3.client('cloudwatch')
+        self.cwclient = boto3.client('cloudwatch')
 
     def send_metrics(self, dimensions, timestamp, metricname, value, unit):
         MetricData = []
-        MetricData.append({'MetricName':metricname,'Dimensions':dimensions,'Value':value,'Unit':unit})
+        MetricData.append({'Namespace':self.CW_NAMESPACE,'MetricName':metricname,
+                           'Dimensions':dimensions,'Value':value,'Unit':unit})
         if (timestamp.year == datetime.today().year):
             MetricData.append({'Timestamp': timestamp})
 
-        self.connection.put_metric_data(self.CW_NAMESPACE, MetricData)
+        self.cwclient.put_metric_data(MetricData)
 
 # Initializing Variables
 config = configparser.ConfigParser()
