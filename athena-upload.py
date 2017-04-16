@@ -109,8 +109,7 @@ for sec in config.sections():
 
             value = round(float(row['value']), 5)
 
-            if 'date' not in row:
-                print(row['date'] + ':0:0')
+            if 'date' in row:
                 dt = datetime.strptime(row['date'] + ':0:0', "%Y-%m-%d %H:%M:%S")
             else:
                 dt = datetime(1900,1,1)
