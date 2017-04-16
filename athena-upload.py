@@ -44,6 +44,10 @@ class CloudWatch:
                            'Dimensions':dimensions,'Value':value,'Unit':unit})
         if (timestamp.year == datetime.today().year):
             MetricData.append({'Timestamp': timestamp})
+        else:
+            jsonMetric = json.dumps(MetricData)
+            print(jsonMetric)
+            print(MetricData)
 
         self.cwclient.put_metric_data(MetricData)
 
@@ -114,7 +118,6 @@ for sec in config.sections():
             if 'date' in row:
                 dt = datetime.strptime(row['date'] + ':0:0', "%Y-%m-%d %H:%M:%S")
             else:
-                print(row)
                 dt = datetime(1900,1,1)
 
             if 'linkedaccountid' in row:
