@@ -44,10 +44,10 @@ class CloudWatch:
         if (timestamp.year == datetime.today().year):
             MetricData.append({'Timestamp': timestamp})
 
-            self.cwclient.put_metric_data(
-                Namespace='DBRTest',
-                MetricData=MetricData
-            )
+        self.cwclient.put_metric_data(
+            Namespace='DBRTest',
+            MetricData=json.dumps(MetricData)
+        )
 
 
 # Initializing Variables
