@@ -5,7 +5,6 @@ import urllib.request, urllib.parse
 import boto3
 import configparser
 import re
-from datetime import date
 from datetime import datetime
 
 
@@ -41,7 +40,7 @@ class CloudWatch:
     def send_metrics(self, dimensions, timestamp, metricname, value, unit):
         MetricData = []
         MetricData.append({'MetricName':metricname,'Dimensions':dimensions,'Value':value,'Unit':unit})
-        if (timestamp.year == date.today().year):
+        if (timestamp.year == datetime.today().year):
             MetricData.append({'Timestamp': timestamp})
 
         self.connection.put_metric_data(self.CW_NAMESPACE, MetricData)
@@ -53,7 +52,7 @@ config.read('DBRconsolidation.ini')
 # AWS AccountID
 reg = re.compile(r'([0-9]{12})',re.I)
 
-today = date.today()
+today = datetime.today()
 date_suffix_athena = today.strftime("%Y_%m")
 date_suffix_bucket = today.strftime("%Y-%m")
 aws_access_key = sys.argv[1]
@@ -111,6 +110,7 @@ for sec in config.sections():
             value = round(float(row['value']), 5)
 
             if 'date' not in row:
+                print(row['date'] + ':0:0')
                 dt = datetime.strptime(row['date'] + ':0:0', "%Y-%m-%d %H:%M:%S")
             else:
                 dt = datetime(1900,1,1)
