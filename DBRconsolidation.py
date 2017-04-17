@@ -43,7 +43,7 @@ class CloudWatch:
         if (timestamp.year == datetime.today().year):
             MetricData['Timestamp'] = timestamp
 
-        print(MetricData)
+        # print(MetricData)
         self.cwclient.put_metric_data(
             Namespace='DBRTest',
             MetricData=[MetricData]
@@ -123,7 +123,7 @@ for sec in config.sections():
             if 'linkedaccountid' in row:
                 rst = reg.findall(row['linkedaccountid']) # Check AccountId has 12 digitis
                 if rst:
-                    dimArray.append({'Name':'AccountId',
+                    dimArray.append({'Name':'LinkedAccountId',
                                         'Value':row['linkedaccountid']})
             if 'productname' in row:
                 if row['productname'] != '':

@@ -94,7 +94,7 @@ do
     run aws s3 sync /media/ephemeral0/$DBRFILEFS_PARQUET s3://${UPLOAD_BUCKET}/dbr-parquet/${AWS_ACCOUNT_ID}-${DATE_SUFFIX} --quiet
 
     echo "Athena upload"
-    ~/DBRConsolidation/athena-upload.py ${ACCESS_KEY} ${SECRET_KEY} ${UPLOAD_BUCKET} ${AWS_ACCOUNT_ID} ${DBR_BLENDED}
+    ~/DBRConsolidation/DBRconsolidation.py ${ACCESS_KEY} ${SECRET_KEY} ${UPLOAD_BUCKET} ${AWS_ACCOUNT_ID} ${DBR_BLENDED}
 
     echo "Cleaning up"
     sudo rm $TEMPDIR$DBRFILEFS
