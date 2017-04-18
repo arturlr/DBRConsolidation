@@ -20,7 +20,6 @@ python3 get-pip.py --user
 
 # Prep Libraries
 ~/.local/bin/pip install boto3
-~/.local/bin/pip install cloudwatch-fluent-metrics
 
 # Get Files
 cd ~
