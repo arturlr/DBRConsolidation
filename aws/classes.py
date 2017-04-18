@@ -49,29 +49,21 @@ class CloudWatch:
             MetricData=[metricdata]
         )
 
-    def get_metrics(self, dimensions, metricname, timetype):
-        endtime = datetime.today()
-        if timetype.lower() == 'hourly':
-            starttime = endtime + timedelta(days=-1)
-            period=60
-        elif timetype.lower() == 'daily':
-            starttime = endtime + timedelta(days=-30)
-            period=60
-        else:
-            starttime = endtime + timedelta(weeks=-26)
-            period = 60
-
+    def get_metrics(self, dimensions, metricname, starttime, endtime, period, stat):
         if len(metricname) < 2:
             print('Invalid MetricName')
             return None
+        print(metricname)
 
         response = self.cwclient.get_metric_statistics(
             Namespace=self.CW_NAMESPACE,
             MetricName=metricname,
             Dimensions=dimensions,
-            StartTime=starttime.isoformat(),
-            EndTime=endtime.isoformat(),
-            Period=period
+            StartTime=starttime,
+            EndTime=endtime,
+            Period=period,
+            Unit='None',
+            Statistics=[stat]
         )
 
         return response
