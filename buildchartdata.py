@@ -21,7 +21,7 @@ class BuildChartData:
 
         # Get Month-to-Date payer billing info
         period = 86400
-        c3_data_arr = [{payer}]
+        c3_data_arr = [payer]
         for f in range(0, 5):
             dtref = datetime.utcnow() - relativedelta(months=+f + 1)
             month = dtref.month
@@ -33,6 +33,7 @@ class BuildChartData:
             #print(startdt.strftime('%d-%m-%Y'))
             #print(enddt.strftime('%d-%m-%Y'))
             rsp = self.cw.get_metrics(dimensions, cwname, startdt, enddt, period, 'Maximum')
+            print(rsp['Datapoints'])
             c3_data_arr.append(self.get_maximum_datapoint(rsp['Datapoints']))
 
 
@@ -63,7 +64,6 @@ today = datetime.today()
 date_suffix_athena = today.strftime("%Y_%m")
 date_suffix_bucket = today.strftime("%Y-%m")
 
-print(len(sys.argv))
 if len(sys.argv) != 4:
     print('Invalid arguments. Please use aws_key aws_secret payeraccountid;payeraccountid;...')
     sys.exit(1)
@@ -72,7 +72,7 @@ aws_access_key = sys.argv[1]
 aws_secret_key = sys.argv[2]
 payeraccounts = sys.argv[3].split(';')
 
-print(payeraccounts)
+#print(payeraccounts)
 
 client = boto3.client("sts", aws_access_key_id=sys.argv[1], aws_secret_access_key=sys.argv[2])
 current_account_id = client.get_caller_identity()["Account"]
@@ -84,16 +84,14 @@ bch = BuildChartData()
 for payer in payeraccounts:
 
     dimensionsArr = [{'Name': 'PayerAccountId', 'Value': payer}]
-    response = bch.gethourinfoperpayer(payer,'Total Month-to-Date Payer',dimensionsArr)
+    response = bch.get_total_month_to_date(payer,'Total Month-to-Date Payer',dimensionsArr)
 
     query = "SELECT DISTINCT linkedaccountid FROM dbr.autodbr_%s_%s" % (payer,date_suffix_athena)
     linked_accounts = ath.Request(query)
 
-    for rsp in linked_accounts['rows']:
-        dimensionsArr = [{'Name': 'PayerAccountId', 'Value': payer},
-                         {'Name': 'LinkedAccountId', 'Value': rsp['linkedaccountid']}]
+    #for rsp in linked_accounts['rows']:
+    #    print(rsp['linkedaccountid'])
+    #    dimensionsArr = [{'Name': 'PayerAccountId', 'Value': payer},
+    #                     {'Name': 'LinkedAccountId', 'Value': rsp['linkedaccountid']}]
 
-        response = bch.gethourinfoperpayer(payer, 'Total Month-to-Date Linked', dimensionsArr)
-
-
-
+    #    response = bch.get_total_month_to_date(payer, 'Total Month-to-Date Linked', dimensionsArr)
