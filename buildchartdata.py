@@ -93,7 +93,7 @@ for payer in payeraccounts:
         dimensionsArr = [{'Name': 'PayerAccountId', 'Value': payer},
                          {'Name': 'LinkedAccountId', 'Value': rsp['linkedaccountid']}]
 
-        response = bch.gethourinfoperpayer(payer, 'Total Month-to-Date Payer', dimensionsArr)
+        response = bch.gethourinfoperpayer(payer, 'Total Month-to-Date Linked', dimensionsArr)
 
 
 
