@@ -18,10 +18,14 @@ class BuildChartData:
         self.cw = aws.classes.CloudWatch()
 
     def get_total_month_to_date(self, payer, cwname, dimensions):
-
         # Get Month-to-Date payer billing info
         period = 86400
-        c3_data_arr = [payer]
+        title = dimensions[len(dimensions)-1]['Value']
+        #for i in range(0,len(dimensions)):
+        #    title = title + dimensions[i]['Value']
+        #    title = title + " - "
+
+        c3_data_arr = [title]
         for f in range(0, 5):
             dtref = datetime.utcnow() - relativedelta(months=+f + 1)
             month = dtref.month
@@ -33,22 +37,39 @@ class BuildChartData:
             #print(startdt.strftime('%d-%m-%Y'))
             #print(enddt.strftime('%d-%m-%Y'))
             rsp = self.cw.get_metrics(dimensions, cwname, startdt, enddt, period, 'Maximum')
-            print(rsp['Datapoints'])
             c3_data_arr.append(self.get_maximum_datapoint(rsp['Datapoints']))
-
 
         enddt = datetime.utcnow()
         startdt = datetime(enddt.year, enddt.month, 1)
         rsp = self.cw.get_metrics(dimensions, cwname, startdt, enddt, period, 'Maximum')
         c3_data_arr.append(self.get_maximum_datapoint(rsp['Datapoints']))
-
         print(c3_data_arr)
 
+    def get_per_hour(self, payer, cwname, dimensions):
+        # Get Month-to-Date payer billing info
+        period = 600
+        title = dimensions[len(dimensions)-1]['Value']
+        #for i in range(0,len(dimensions)):
+        #    title = title + dimensions[i]['Value']
+        #    title = title + " - "
+
+        c3_data_arr = [title]
+        c3_x_arr = ['x']
+        startdt = datetime.utcnow() - timedelta(days=1)
+        enddt = datetime.utcnow()
+        rsp = self.cw.get_metrics(dimensions, cwname, startdt, enddt, period, 'Maximum')
+        hours_sorted = sorted(rsp['Datapoints'], key=lambda k: k['Timestamp'])
+
+        for h in hours_sorted:
+            c3_x_arr.append(h['Timestamp'].strftime('%H-%M'))
+            c3_data_arr.append(h['Maximum'])
+
+        print(c3_x_arr)
+        print(c3_data_arr)
 
     def get_maximum_datapoint(self,datapoints):
         maxpt = 0
         for datapt in datapoints:
-            print(datapt)
             cur = datapt['Maximum']
             if cur > maxpt:
                 maxpt = cur
@@ -82,16 +103,20 @@ bch = BuildChartData()
 
 # Getting data and collecting metrics.
 for payer in payeraccounts:
+    # Total Month-to-Date
+    dimensions_arr = [{'Name': 'PayerAccountId', 'Value': payer}]
+    response = bch.get_total_month_to_date(payer,'Total Month-to-Date Payer',dimensions_arr)
 
-    dimensionsArr = [{'Name': 'PayerAccountId', 'Value': payer}]
-    response = bch.get_total_month_to_date(payer,'Total Month-to-Date Payer',dimensionsArr)
+    response = bch.get_per_hour(payer, 'Total Per Hour Payer', dimensions_arr)
 
-    query = "SELECT DISTINCT linkedaccountid FROM dbr.autodbr_%s_%s" % (payer,date_suffix_athena)
-    linked_accounts = ath.Request(query)
+    # Service Month-to-Date
+    query = "SELECT DISTINCT productname FROM dbr.autodbr_%s_%s" % (payer,date_suffix_athena)
+    rst = ath.Request(query)
+    for svc in rst['rows']:
+        if svc['productname'] == '':
+            continue
 
-    #for rsp in linked_accounts['rows']:
-    #    print(rsp['linkedaccountid'])
-    #    dimensionsArr = [{'Name': 'PayerAccountId', 'Value': payer},
-    #                     {'Name': 'LinkedAccountId', 'Value': rsp['linkedaccountid']}]
+        dimensions_arr = [{'Name': 'PayerAccountId', 'Value': payer},
+                         {'Name': 'ProductName', 'Value': svc['productname']}]
 
-    #    response = bch.get_total_month_to_date(payer, 'Total Month-to-Date Linked', dimensionsArr)
+        response = bch.get_total_month_to_date(payer, 'Services Month-to-Date', dimensions_arr)

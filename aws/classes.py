@@ -45,7 +45,7 @@ class CloudWatch:
 
         # print(MetricData)
         self.cwclient.put_metric_data(
-            Namespace='DBRTest',
+            Namespace=self.CW_NAMESPACE,
             MetricData=[metricdata]
         )
 
@@ -53,7 +53,6 @@ class CloudWatch:
         if len(metricname) < 2:
             print('Invalid MetricName')
             return None
-        print(metricname)
 
         response = self.cwclient.get_metric_statistics(
             Namespace=self.CW_NAMESPACE,
