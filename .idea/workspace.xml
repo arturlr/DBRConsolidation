@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9bd571f8-cc4b-4b32-8241-9c8efdf65ce2" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/html/DBRdashboard.html" afterPath="$PROJECT_DIR$/html/DBRdashboard.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/html/dashcharts.js" afterPath="$PROJECT_DIR$/html/dashcharts.js" />
     </list>
     <ignored path="DBRConsolidation.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,7 +46,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashcharts.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dashcharts.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/html/dashcharts.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
@@ -60,16 +59,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DBRdashboard.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DBRdashboard.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/html/DBRdashboard.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+            <state relative-caret-position="360">
+              <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#2;n#body#0;n#!!top" expanded="true" />
-                <marker date="1492708677000" expanded="false" signature="3225:3238" ph="..." />
-                <marker date="1492708677000" expanded="false" signature="3985:3998" ph="..." />
+                <marker date="1492710672000" expanded="false" signature="3225:3238" ph="..." />
+                <marker date="1492710672000" expanded="false" signature="3985:3998" ph="..." />
               </folding>
             </state>
           </provider>
@@ -148,8 +147,8 @@
         <option value="$PROJECT_DIR$/DBRconsolidation.py" />
         <option value="$PROJECT_DIR$/DBRconsolidation.ini" />
         <option value="$PROJECT_DIR$/buildchartdata.py" />
-        <option value="$PROJECT_DIR$/html/DBRdashboard.html" />
         <option value="$PROJECT_DIR$/html/dashcharts.js" />
+        <option value="$PROJECT_DIR$/html/DBRdashboard.html" />
       </list>
     </option>
   </component>
@@ -565,6 +564,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/html/dashcharts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="10" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#2773#0" expanded="false" />
+            <element signature="e#0#2773#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/buildchartdata.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="537">
@@ -577,24 +587,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/html/DBRdashboard.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+        <state relative-caret-position="360">
+          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <marker date="1492708677000" expanded="false" signature="3225:3238" ph="..." />
-            <marker date="1492708677000" expanded="false" signature="3985:3998" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/html/dashcharts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="10" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#2773#0" expanded="false" />
-            <element signature="e#0#2773#0" expanded="false" />
+            <marker date="1492710672000" expanded="false" signature="3225:3238" ph="..." />
+            <marker date="1492710672000" expanded="false" signature="3985:3998" ph="..." />
           </folding>
         </state>
       </provider>
