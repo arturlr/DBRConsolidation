@@ -1,7 +1,18 @@
 $(document).ready(function () {
 
-    var donutCharts = {}
-    var perhourCharts = {}
+    var barChart = c3.generate({
+        bindto: '#last6monthbarchart',
+        data: {
+            x : 'x',
+        columns: [
+            ['x', '03-2017', '02-2017', '01-2017', '12-2016', '11-2016', '10-2016'],
+            ['514046899996', 0, 0, 0, 0, 0, 50.78987],
+            ['745716881695', 0, 0, 0, 0, 0, 108.27369],
+        ],
+        type: 'bar'
+        });
+
+    });
 
     function CreateChartInstance(type,name) {
         if (type == "donut") {
@@ -50,13 +61,6 @@ $(document).ready(function () {
         }
     }
 
-
-    function setHeaderDataTable(xhr) {
-        xhr.setRequestHeader('x-api-key', 'ntdcCpn3lE52HrYX891cnakn3ehqJLYb44ucJ7up');
-        //xhr.setRequestHeader('authorization', token);
-        }
-
-
     function renderDonut(type, name, rspdata) {
         if (type == "donut") {
             CreateChartInstance(type,name)
@@ -80,55 +84,4 @@ $(document).ready(function () {
         }
     }
 
-    function requestChartData() {
-        return $.ajax({
-            url: "https://enq9fomv02.execute-api.us-east-1.amazonaws.com/api/clubchart/" + $("#clubid").val() + "/",
-            cache: false,
-            type: "GET",
-            beforeSend: setHeaderDataTable,
-            contentType: 'application/json; charset=utf-8',
-        })
-        .done(function (data) {
-            //console.log(data);
-            document.getElementById('currentmonthCount').innerHTML = data.summary[0].current;
-            document.getElementById('lastmonthCount').innerHTML = data.summary[0].last;
-
-            var barChart = c3.generate({
-                bindto: '#barchart',
-                data: {
-                    json: data.bymonth,
-                    keys: {
-                        x: 'monthyear', // it's possible to specify 'x' when category axis
-                        value: **PAYERS**,
-                    },
-                    type: 'bar',
-                    groups: [
-                        **PAYERS**
-                    ],
-                    order: 'null'
-                },
-                //color: {
-                //    pattern: ['#203ABB', '#F8AA33']
-                //},
-                axis: {
-                    x: {
-                        type: 'category',
-                        tick: {
-                            rotate: -30,
-                            multiline: false
-                        },
-                        height: 50
-                    }
-                }
-            });
-
-            renderDonut("services", data.byservices);
-            renderDonut("tags", data.bytags);
-            renderDonut("payers", data.bypayers);
-            renderDonut("linked", data.bylinked);
-
-        });
-    };
-
-    requestChartData();
-});
+};

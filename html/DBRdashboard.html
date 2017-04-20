@@ -41,59 +41,49 @@
     
     <div class="col-sm-10 col-md-12 col-lg-12 main">
 
-        <input type="hidden" id="accountid" name="accountid" value='**ACCT**' />
-
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="h3">Last 6 month total cost</div>
-                <div id="barchart" style="height:250px;"></div>
-            </div><!-- col -->
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <div class="h3">Cost Summary</div>
-                <br />
-                <div class="tile_stats_count">
-                    <span class="count_top"><i style="color:green" class="fa fa-check-circle-o fa-lg"></i> Current Month</span>
-                    <div class="h2" id="currentmonthCount"></div>
-                </div>
-                <hr />
-                <div class="tile_stats_count">
-                    <span class="count_top"><i style="color:green" class="fa fa-times-circle-o fa-lg"></i> Last Month</span>
-                    <div class="h2" id="lastmonthCount"></div>
-                </div>
-
+                <div id="last6monthbarchart" style="height:250px;"></div>
             </div><!-- col -->
         </div> <!-- row -->
         <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="h3">Last 6 month total cost</div>
+                <div id="servicedailychart" style="height:250px;"></div>
+            </div><!-- col -->
+        </div> <!-- row -->
         <div class="row"> <!-- Donut Charts -->
             <div class="col-md-12">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div id="servicesdonut" style="height:250px;"></div>
                     </div> <!-- col -->
-                    <div class="col-md-3">
-                        <div id="tagsdonut" style="height:250px;"></div>
-                    </div> <!-- col -->
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div id="payerdonut" style="height: 250px;"></div>
                     </div> <!-- col -->
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div id="linkeddonut" style="height: 250px;"></div>
+                    </div> <!-- col -->
+                    <!-- <div class="col-md-3">
+                        <div id="tagsdonut" style="height:250px;"></div>
                     </div> <!-- col -->
             </div>
         </div>
 
         <div class="row"> <!-- Line Charts -->
             <div class="col-md-12">
-                <div class="col-md-3">
+                <div class="col-md-4">
                         <div id="servicesperhour" style="height:250px;"></div>
                     </div> <!-- col -->
-                    <div class="col-md-3">
-                        <div id="tagsperhour" style="height:250px;"></div>
-                    </div> <!-- col -->
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div id="payerperhour" style="height: 250px;"></div>
                     </div> <!-- col -->
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div id="linkedperhour" style="height: 250px;"></div>
+                    </div> <!-- col -->
+                    <!-- <div class="col-md-3">
+                        <div id="tagsperhour" style="height:250px;"></div>
                     </div> <!-- col -->
             </div>
         </div>
@@ -135,10 +125,6 @@
 <br />
 <br />
 <div>
-    <h6><small>
-        <br />
-        <br />
-</small></h6>
 </div>
 
 
