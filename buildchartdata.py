@@ -105,11 +105,11 @@ class BuildChartData:
     def get_per_hour(self, payer_accounts, metric_name):
         period = 600
 
-        c3_data = [{'x': ['x']}]
-        c3_data_index = 0
+        c3_data_hour = [{'x': ['x']}]
+        c3_data_hour_index = 0
         for payer in payeraccounts:
-            c3_data.append({'data': [payer]})
-            c3_data_index = c3_data_index + 1
+            c3_data_hour.append({'data': [payer]})
+            c3_data_hour_index = c3_data_hour_index + 1
 
             dimensions_arr = [{'Name': 'PayerAccountId', 'Value': payer}]
             dt_start = datetime.utcnow() - timedelta(days=1)
@@ -117,11 +117,11 @@ class BuildChartData:
             rsp = self.cw.get_metrics(dimensions_arr, metric_name, dt_start, dt_end, period, 'Maximum')
             hours_sorted = sorted(rsp['Datapoints'], key=lambda k: k['Timestamp'])
 
-            for h in hours_sorted:
-                c3_data[0]['x'].append(['Timestamp'].strftime('%H-%M'))
-                c3_data[c3_data_index]['data'].append(['Maximum'])
+            for dp in hours_sorted:
+                c3_data_hour[0]['x'].append(dp['Timestamp'].strftime('%H-%M'))
+                c3_data_hour[c3_data_hour_index]['data'].append(dp['Maximum'])
 
-        return c3_data
+        return c3_data_hour
 
     def get_maximum_datapoint(self,datapoints):
         maxpt = 0
@@ -155,11 +155,11 @@ c3_data = [{metric_name: response }]
 
 metric_name = 'Estimate Per Hour Payer'
 response = bch.get_per_hour(payeraccounts,metric_name)
-c3_data.append({metric_name:[response]})
+c3_data.append({metric_name:response})
 
 metric_name = 'Estimate Month-to-Date Services'
 response = bch.get_services(payeraccounts, metric_name,'daily')
-c3_data.append({metric_name:[response]})
+c3_data.append({metric_name:response})
 
 print(c3_data)
 

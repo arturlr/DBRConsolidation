@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9bd571f8-cc4b-4b32-8241-9c8efdf65ce2" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/buildchartdata.py" afterPath="$PROJECT_DIR$/buildchartdata.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/html/DBRdashboard.html" afterPath="$PROJECT_DIR$/html/DBRdashboard.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/html/dashcharts.js" afterPath="$PROJECT_DIR$/html/dashcharts.js" />
     </list>
     <ignored path="DBRConsolidation.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,11 +37,10 @@
       <file leaf-file-name="buildchartdata.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/buildchartdata.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+            <state relative-caret-position="537">
+              <caret line="162" column="0" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
               <folding>
                 <element signature="e#19#30#0" expanded="true" />
-                <element signature="e#839#2385#0" expanded="false" />
                 <element signature="e#2459#4081#0" expanded="false" />
               </folding>
             </state>
@@ -588,11 +585,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/buildchartdata.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+        <state relative-caret-position="537">
+          <caret line="162" column="0" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
           <folding>
             <element signature="e#19#30#0" expanded="true" />
-            <element signature="e#839#2385#0" expanded="false" />
             <element signature="e#2459#4081#0" expanded="false" />
           </folding>
         </state>
