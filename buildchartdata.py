@@ -161,9 +161,16 @@ class BuildChartData:
                     if count == 0:
                         jsonbody = jsonbody + ' "' + str(i) + '" : ['
                     elif count == len(v) - 1:
-                        jsonbody = jsonbody + '"' + str(i) + '"],'
+                        if (k == "x"):
+                            jsonbody = jsonbody + '"' + str(i) + '"],'
+                        else:
+                            jsonbody = jsonbody + str(i) + '],'
                     else:
-                        jsonbody = jsonbody + '"' + str(i) + '",'
+                        if (k == "x"):
+                            jsonbody = jsonbody + '"' + str(i) + '",'
+                        else:
+                            jsonbody = jsonbody + str(i) + ','
+
                     count = count + 1
         jsonbody = jsonbody[:-1]
         jsonbody = jsonbody + " }"
