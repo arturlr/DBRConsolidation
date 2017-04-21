@@ -18,7 +18,6 @@ class BuildChartData:
         self.cw = aws.classes.CloudWatch()
         self.date_suffix_athena = datetime.now().strftime("%Y_%m")
         self.bucket = bucket
-        self.s3_path = "s3://" + bucket + "/html"
 
         client = boto3.client("sts", aws_access_key_id=access_key, aws_secret_access_key=secret_key)
         current_account_id = client.get_caller_identity()["Account"]
@@ -172,7 +171,9 @@ class BuildChartData:
         with open(self.filenamepath + file_name +  ".json", "w") as text_file:
             print(jsonbody, file=text_file)
 
-        print(jsonbody)
+        s3 = boto3.client('s3')
+        s3.upload_file(self.filenamepath + file_name + ".json", self.bucket, "html/" + file_name + ".json")
+        # print(jsonbody)
 
 
 ###################################
