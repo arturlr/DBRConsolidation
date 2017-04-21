@@ -1,31 +1,32 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <head>
     <meta https-equiv="X-UA-Compatible" content="IE=edge">
     <meta https-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <!-- JQuery UI -->
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/smoothness/jquery-ui.css">
-
     <!-- BootStrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
     <!-- Chart Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.css">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.css" rel="stylesheet" />    
-    <link href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.css" rel="stylesheet" />
     <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-    <link href="https://www.participationhours.com/css/dashboardStyle.css" rel="stylesheet" />
+
+
+   <!-- Java Scripts -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <!-- Chart Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+
     <title>DBR Dashboard</title>
 </head>
 <body>
-    <header>
-    </header>
-
         <div class="navbar navbar-static-top navbar-inverse navbar-default">
         <div class="navbar-header">
             <p>DBR Dashboard</p>
@@ -34,23 +35,17 @@
         <ul class="nav navbar-nav">
         </ul>
     </div>
-    <div class="navbar navbar-default navbar-lower">
-        <ul class="nav navbar-nav">
-        </ul>
-    </div>
-    
-    <div class="col-sm-10 col-md-12 col-lg-12 main">
 
         <div class="row">
             <div class="col-md-12">
-                <div class="h3">Last 6 month total cost</div>
-                <div id="last6monthbarchart" style="height:250px;"></div>
+                <div class="h3">Payers Estimate 6 month total cost</div>
+                <div id="last6month" class="c3" style="height:250px;"></div>
             </div><!-- col -->
         </div> <!-- row -->
         <hr />
         <div class="row">
             <div class="col-md-12">
-                <div class="h3">Last 6 month total cost</div>
+                <div class="h3">Service Estimate 6 month total cost</div>
                 <div id="servicedailychart" style="height:250px;"></div>
             </div><!-- col -->
         </div> <!-- row -->
@@ -89,44 +84,12 @@
         </div>
 
         </div> <!-- main div -->
-
-    </body>
-
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    
-    <!-- Chart Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
-
-    <!-- Libraries -->
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
     <script type="text/javascript" src="https://s3.amazonaws.com/artrodri/html/dashcharts.js"></script>
-    <script>
-
-
-    </script>
 
 </body>
-<hr />
-<br />
-<br />
-<div>
-</div>
+
+
+
 
 
 

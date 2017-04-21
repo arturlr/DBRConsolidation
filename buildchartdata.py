@@ -30,7 +30,7 @@ class BuildChartData:
         c3_data_index = 0
 
         # Populate with the date range
-        for f in range(0, 6):
+        for f in range(5,-1,-1):
             dt_ref = datetime.utcnow() - relativedelta(months=+f + 1)
             month = dt_ref.month
             year = dt_ref.year
@@ -42,7 +42,7 @@ class BuildChartData:
             c3_data.append({'data': [payer]})
             c3_data_index = c3_data_index + 1
 
-            for f in range(0, 5):
+            for f in range(5,0,-1):
                 dt_ref = datetime.utcnow() - relativedelta(months=+f + 1)
                 month = dt_ref.month
                 year = dt_ref.year
@@ -59,6 +59,7 @@ class BuildChartData:
             c3_data[c3_data_index]['data'].append(self.get_maximum_datapoint(rsp['Datapoints']))
 
         return c3_data
+
 
     def get_services(self, payer_account, metric_name, range):
         if range == 'daily':
@@ -117,8 +118,8 @@ class BuildChartData:
             hours_sorted = sorted(rsp['Datapoints'], key=lambda k: k['Timestamp'])
 
             for h in hours_sorted:
-                c3_data[0]['x'].append(h['Timestamp'].strftime('%H-%M'))
-                c3_data[c3_data_index]['data'].append(h['Maximum'])
+                c3_data[0]['x'].append(['Timestamp'].strftime('%H-%M'))
+                c3_data[c3_data_index]['data'].append(['Maximum'])
 
         return c3_data
 
