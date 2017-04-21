@@ -13,10 +13,12 @@ import aws.classes
 
 
 class BuildChartData:
-    def __init__(self,access_key,secret_key):
+    def __init__(self,access_key,secret_key,bucket):
         self.filenamepath = "/media/ephemeral0/"
         self.cw = aws.classes.CloudWatch()
         self.date_suffix_athena = datetime.now().strftime("%Y_%m")
+        self.bucket = bucket
+        self.s3_path = "s3://" + bucket + "/html"
 
         client = boto3.client("sts", aws_access_key_id=access_key, aws_secret_access_key=secret_key)
         current_account_id = client.get_caller_identity()["Account"]
@@ -31,7 +33,7 @@ class BuildChartData:
 
         # Populate with the date range
         for f in range(5,-1,-1):
-            dt_ref = datetime.utcnow() - relativedelta(months=+f + 1)
+            dt_ref = datetime.utcnow() - relativedelta(months=f)
             month = dt_ref.month
             year = dt_ref.year
             dt_start = datetime(year, month, 1)
@@ -43,7 +45,7 @@ class BuildChartData:
             c3_data_index = c3_data_index + 1
 
             for f in range(5,0,-1):
-                dt_ref = datetime.utcnow() - relativedelta(months=+f + 1)
+                dt_ref = datetime.utcnow() - relativedelta(months=f)
                 month = dt_ref.month
                 year = dt_ref.year
                 num_days = calendar.monthrange(year, month)
@@ -107,6 +109,12 @@ class BuildChartData:
 
         c3_data_hour = [{'x': ['x']}]
         c3_data_hour_index = 0
+        dt_ref = datetime.utcnow()
+        # Populate with the date range
+        for f in range(24, -1, -1):
+            dt = dt_ref - timedelta(hours=f)
+            c3_data_hour[c3_data_hour_index]['x'].append(dt.isoformat() + 'Z')
+
         for payer in payeraccounts:
             c3_data_hour.append({'data': [payer]})
             c3_data_hour_index = c3_data_hour_index + 1
@@ -117,11 +125,22 @@ class BuildChartData:
             rsp = self.cw.get_metrics(dimensions_arr, metric_name, dt_start, dt_end, period, 'Maximum')
             hours_sorted = sorted(rsp['Datapoints'], key=lambda k: k['Timestamp'])
 
-            for dp in hours_sorted:
-                c3_data_hour[0]['x'].append(dp['Timestamp'].strftime('%H-%M'))
-                c3_data_hour[c3_data_hour_index]['data'].append(dp['Maximum'])
+            # Parse the metrics ans populate the values
+            for f in range(24, -1, -1):
+                dt = dt_ref - timedelta(hours=f)
+                flag_found = False
+                for dp in hours_sorted:
+                    if dp['Timestamp'].hour == dt.hour and dp['Timestamp'].day == dt.day:
+                        c3_data_hour[c3_data_hour_index]['data'].append(dp['Maximum'])
+                        # print(payer + ' : ' + dt.strftime('%x-%X') + ' - ' + str(dp['Maximum']))
+                        flag_found = True
+                        break
+                if flag_found == False:
+                    c3_data_hour[c3_data_hour_index]['data'].append(0)
+                    # print(payer + ' : ' + dt.strftime('%x-%X') + ' - ' + '0')
 
         return c3_data_hour
+
 
     def get_maximum_datapoint(self,datapoints):
         maxpt = 0
@@ -131,6 +150,30 @@ class BuildChartData:
                 maxpt = cur
 
         return maxpt
+
+
+    def format_c3_json(self, file_name, values_array):
+        print(file_name)
+        jsonbody = "{ "
+        for values in values_array:
+            for k, v in values.items():
+                count = 0
+                for i in v:
+                    if count == 0:
+                        jsonbody = jsonbody + ' "' + str(i) + '" : ['
+                    elif count == len(v) - 1:
+                        jsonbody = jsonbody + '"' + str(i) + '"],'
+                    else:
+                        jsonbody = jsonbody + '"' + str(i) + '",'
+                    count = count + 1
+        jsonbody = jsonbody[:-1]
+        jsonbody = jsonbody + " }"
+
+        with open(self.filenamepath + file_name +  ".json", "w") as text_file:
+            print(jsonbody, file=text_file)
+
+        print(jsonbody)
+
 
 ###################################
 #
@@ -143,7 +186,7 @@ if len(sys.argv) != 4:
 
 payeraccounts = sys.argv[3].split(';')
 
-bch = BuildChartData(sys.argv[1],sys.argv[2])
+bch = BuildChartData(sys.argv[1],sys.argv[2],sys.argv[4])
 
 ###################################
 #
@@ -161,7 +204,15 @@ metric_name = 'Estimate Month-to-Date Services'
 response = bch.get_services(payeraccounts, metric_name,'daily')
 c3_data.append({metric_name:response})
 
-print(c3_data)
+for item in c3_data:
+    for metric_name, values_array in item.items():
+        if values_array == None:
+            continue
+        file_name = metric_name.replace(" ", "_").lower()
+        file_name = file_name.replace("-", "_")
+        bch.format_c3_json(file_name, values_array)
+
+#print(c3_data)
 
 
 
