@@ -101,3 +101,8 @@ do
     sudo rm $TEMPDIR$DBRFILEFS_CSV
 
 done
+
+echo "Copying html files"
+aws s3 cp html/dashcharts.js s3://${UPLOAD_BUCKET}/html/dashcharts.js --acl public-read
+aws s3 cp html/DBRdashboard.html s3://${UPLOAD_BUCKET}/html/DBRdashboard.html --acl public-read
+aws s3 cp html/aws-sdk-2.45.0.min.js s3://${UPLOAD_BUCKET}/html/aws-sdk-2.45.0.min.js --acl public-read

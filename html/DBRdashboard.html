@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Chart Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.css" rel="stylesheet" />
     <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 
 
@@ -17,7 +16,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <!-- Chart Libraries -->
@@ -25,9 +23,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
 
     <!-- AWS Libraries -->
-    <script src="https://raw.githubusercontent.com/aws/amazon-cognito-identity-js/master/dist/aws-cognito-sdk.min.js"></script>
-    <script src="https://raw.githubusercontent.com/aws/amazon-cognito-identity-js/master/dist/amazon-cognito-identity.min.js"></script>
-    <script src="js/aws-sdk-2.45.0.min.js"></script>
+    <script src="aws-cognito-sdk.min.js"></script>
+    <script src="amazon-cognito-identity.min.js"></script>
+    <script src="aws-sdk-2.45.0.min.js"></script>
 
     <title>DBR Dashboard</title>
 </head>
@@ -90,36 +88,27 @@
         </div>
 
         </div> <!-- main div -->
-    <script type="text/javascript" src="https://s3.amazonaws.com/artrodri/html/dashcharts.js"></script>
-
-</body>
+        <script type="text/javascript" src="https://s3.amazonaws.com/artrodri/html/dashcharts.js"></script>
 
 
 <!-- The Modal -->
 <div id="id01" class="modal">
-  <span onclick="document.getElementById('id01').style.display='none'"
-class="close" title="Close Modal">&times;</span>
-
   <!-- Modal Content -->
-  <form class="modal-content animate" action="/action_page.php">
-
-    <div class="container">
+    <div class="container" style="background-color:#f1f1f1">
       <label><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
+      <input type="text" id="uname" name="uname" required>
 
       <label><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
+      <input type="password" id="psw" name="psw" required>
 
-      <button type="submit">Login</button>
-      <input type="checkbox" checked="checked"> Remember me
+       <a href="#" class="btn btn-default btn-sm" name="fakeSubmit" id="fakeSubmit">Login</a>
     </div>
-
-    <div class="container" style="background-color:#f1f1f1">
-      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      <span class="psw">Forgot <a href="#">password?</a></span>
-    </div>
-  </form>
 </div>
+
+</body>
+
+
+
 
 
 
