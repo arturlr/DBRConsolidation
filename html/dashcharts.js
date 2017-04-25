@@ -26,13 +26,33 @@ var awstoken;
 
 $(document).ready(function() {
 
-    function RenderCharts() {
+    function RenderCharts(awscred) {
+
+    var s3 = new AWS.S3(
+        {apiVersion: '2006-03-01',
+        credentials: awscred});
+
+    var pathname = window.location.pathname.split('/');
+    var awsBucket = pathname[1]
+    var params = {Bucket: awsBucket, Key: 'html/estimate_month_to_date_payer.json'};
+    console.log('s3: '+awsBucket+'html/estimate_month_to_date_payer.json')
+    var jsondata = ''
+
+    s3.getObject(params, function(err, data) {
+            if (err){
+                console.log(err, err.stack);
+                sweetAlert("Error accessing S3", err, "error");
+            } else{
+                jsondata = data
+                console.log(data);
+            }
+        });
 
     var barChart = c3.generate({
             bindto: '#last6month',
             data: {
+                json: jsondata,
                 x: 'x',
-                url: 'estimate_month_to_date_payer.json',
                 mimeType: 'json',
                 type: 'bar'
             },
@@ -175,7 +195,13 @@ $(document).ready(function() {
                         secretAccessKey: AWS.config.credentials.secretAccessKey
                       };
 
-                      RenderCharts();
+                      var creds = new AWS.Credentials({
+                          accessKeyId: AWS.config.credentials.accessKeyId,
+                          secretAccessKey: AWS.config.credentials.secretAccessKey,
+                          sessionToken: AWS.config.credentials.sessionToken
+                        });
+
+                      RenderCharts(creds);
 
                     }
                 });
