@@ -26,16 +26,10 @@ var awstoken;
 
 $(document).ready(function() {
 
-    function RenderCharts(awscred) {
+    function RenderCharts() {
 
-    var s3 = new AWS.S3(
-        {apiVersion: '2006-03-01',
-        credentials: awscred});
-
-    var pathname = window.location.pathname.split('/');
-    var awsBucket = pathname[1]
-    var params = {Bucket: awsBucket, Key: 'html/estimate_month_to_date_payer.json'};
-    console.log('s3: '+awsBucket+'html/estimate_month_to_date_payer.json')
+    var params = {Key: 'html/estimate_month_to_date_payer.json'};
+    //console.log('s3: '+awsBucket+'/html/estimate_month_to_date_payer.json')
     var jsondata = ''
 
     s3.getObject(params, function(err, data) {
@@ -195,13 +189,16 @@ $(document).ready(function() {
                         secretAccessKey: AWS.config.credentials.secretAccessKey
                       };
 
-                      var creds = new AWS.Credentials({
-                          accessKeyId: AWS.config.credentials.accessKeyId,
-                          secretAccessKey: AWS.config.credentials.secretAccessKey,
-                          sessionToken: AWS.config.credentials.sessionToken
-                        });
+                      var pathname = window.location.pathname.split('/');
+                      var awsBucket = pathname[1]
 
-                      RenderCharts(creds);
+                      var s3 = new AWS.S3({
+                        apiVersion: '2006-03-01',
+                        params: {Bucket: awsBucket},
+                        credentials: AWS.config.credentials
+                      });
+
+                      RenderCharts();
 
                     }
                 });

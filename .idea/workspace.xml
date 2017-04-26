@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9bd571f8-cc4b-4b32-8241-9c8efdf65ce2" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/aws/classes.py" afterPath="$PROJECT_DIR$/aws/classes.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/html/DBRdashboard.html" afterPath="$PROJECT_DIR$/html/DBRdashboard.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/html/dashcharts.js" afterPath="$PROJECT_DIR$/html/dashcharts.js" />
     </list>
@@ -23,11 +24,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DBRconsolidation.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DBRconsolidation.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DBRconsolidation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="855">
-              <caret line="65" column="31" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
+            <state relative-caret-position="225">
+              <caret line="52" column="24" selection-start-line="52" selection-start-column="21" selection-end-line="52" selection-end-column="24" />
               <folding>
                 <element signature="e#19#30#0" expanded="true" />
               </folding>
@@ -38,8 +39,8 @@
       <file leaf-file-name="buildchartdata.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/buildchartdata.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1545">
-              <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
+            <state relative-caret-position="225">
+              <caret line="37" column="20" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="20" />
               <folding>
                 <element signature="e#19#30#0" expanded="true" />
                 <element signature="e#5845#6002#0" expanded="false" />
@@ -48,11 +49,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashcharts.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dashcharts.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/html/dashcharts.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1965">
-              <caret line="37" column="23" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
+            <state relative-caret-position="3000">
+              <caret line="200" column="33" selection-start-line="200" selection-start-column="30" selection-end-line="200" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -61,8 +62,8 @@
       <file leaf-file-name="DBRdashboard.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/html/DBRdashboard.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="543">
-              <caret line="41" column="17" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
+            <state relative-caret-position="172">
+              <caret line="89" column="14" selection-start-line="89" selection-start-column="14" selection-end-line="89" selection-end-column="14" />
               <folding>
                 <element signature="n#style#0;n#h4#0;n#li#0;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#0;n#p#0;n#li#3;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
@@ -70,8 +71,8 @@
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#5;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#6;n#body#0;n#!!top" expanded="true" />
-                <marker date="1493157542000" expanded="false" signature="3670:3683" ph="..." />
-                <marker date="1493157542000" expanded="false" signature="4430:4443" ph="..." />
+                <marker date="1493213215000" expanded="false" signature="3699:3712" ph="..." />
+                <marker date="1493213215000" expanded="false" signature="4459:4472" ph="..." />
               </folding>
             </state>
           </provider>
@@ -80,8 +81,8 @@
       <file leaf-file-name="classes.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/aws/classes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="930">
-              <caret line="62" column="25" selection-start-line="62" selection-start-column="19" selection-end-line="62" selection-end-column="25" />
+            <state relative-caret-position="270">
+              <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -92,7 +93,7 @@
       <file leaf-file-name="run.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/run.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1365">
+            <state relative-caret-position="357">
               <caret line="91" column="36" selection-start-line="91" selection-start-column="36" selection-end-line="91" selection-end-column="36" />
               <folding />
             </state>
@@ -143,15 +144,15 @@
         <option value="$PROJECT_DIR$/aws/athena.py" />
         <option value="$PROJECT_DIR$/__init__.py" />
         <option value="$PROJECT_DIR$/aws/cloudwatch.py" />
-        <option value="$PROJECT_DIR$/aws/classes.py" />
         <option value="$PROJECT_DIR$/loadpreviousmonths.py" />
         <option value="$PROJECT_DIR$/loadpreviousmonths.sh" />
         <option value="$PROJECT_DIR$/DBRconsolidation.py" />
         <option value="$PROJECT_DIR$/DBRconsolidation.ini" />
         <option value="$PROJECT_DIR$/buildchartdata.py" />
         <option value="$PROJECT_DIR$/run.sh" />
-        <option value="$PROJECT_DIR$/html/DBRdashboard.html" />
         <option value="$PROJECT_DIR$/html/dashcharts.js" />
+        <option value="$PROJECT_DIR$/aws/classes.py" />
+        <option value="$PROJECT_DIR$/html/DBRdashboard.html" />
       </list>
     </option>
   </component>
@@ -476,8 +477,8 @@
             <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#5;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#6;n#body#0;n#!!top" expanded="true" />
-            <marker date="1493157542000" expanded="false" signature="3670:3683" ph="..." />
-            <marker date="1493157542000" expanded="false" signature="4430:4443" ph="..." />
+            <marker date="1493213215000" expanded="false" signature="3699:3712" ph="..." />
+            <marker date="1493213215000" expanded="false" signature="4459:4472" ph="..." />
           </folding>
         </state>
       </provider>
@@ -542,14 +543,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/athena-upload.py" />
-    <entry file="file://$PROJECT_DIR$/userdata.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/builChartData.py" />
     <entry file="file://$PROJECT_DIR$/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -570,19 +563,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DBRconsolidation.py">
+    <entry file="file://$PROJECT_DIR$/userdata.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="65" column="31" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
-          <folding>
-            <element signature="e#19#30#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="315">
+          <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/run.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1365">
+        <state relative-caret-position="357">
           <caret line="91" column="36" selection-start-line="91" selection-start-column="36" selection-end-line="91" selection-end-column="36" />
           <folding />
         </state>
@@ -590,29 +581,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/aws/classes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="62" column="25" selection-start-line="62" selection-start-column="19" selection-end-line="62" selection-end-column="25" />
+        <state relative-caret-position="270">
+          <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/buildchartdata.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1545">
-          <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
-          <folding>
-            <element signature="e#19#30#0" expanded="true" />
-            <element signature="e#5845#6002#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/html/DBRdashboard.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="543">
-          <caret line="41" column="17" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
+        <state relative-caret-position="172">
+          <caret line="89" column="14" selection-start-line="89" selection-start-column="14" selection-end-line="89" selection-end-column="14" />
           <folding>
             <element signature="n#style#0;n#h4#0;n#li#0;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#p#0;n#li#3;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
@@ -620,17 +600,38 @@
             <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#5;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#6;n#body#0;n#!!top" expanded="true" />
-            <marker date="1493157542000" expanded="false" signature="3670:3683" ph="..." />
-            <marker date="1493157542000" expanded="false" signature="4430:4443" ph="..." />
+            <marker date="1493213215000" expanded="false" signature="3699:3712" ph="..." />
+            <marker date="1493213215000" expanded="false" signature="4459:4472" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/html/dashcharts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1965">
-          <caret line="37" column="23" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
+        <state relative-caret-position="3000">
+          <caret line="200" column="33" selection-start-line="200" selection-start-column="30" selection-end-line="200" selection-end-column="33" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/buildchartdata.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="37" column="20" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="20" />
+          <folding>
+            <element signature="e#19#30#0" expanded="true" />
+            <element signature="e#5845#6002#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DBRconsolidation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="52" column="24" selection-start-line="52" selection-start-column="21" selection-end-line="52" selection-end-column="24" />
+          <folding>
+            <element signature="e#19#30#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
