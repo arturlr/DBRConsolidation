@@ -24,14 +24,31 @@ var CLIENT_ID = '7b6ejd42btgrtip7nvm5vd2jm';
 
 var awstoken;
 
-$(document).ready(function() {
-
-    function RenderCharts() {
-
-    var params = {Key: 'html/estimate_month_to_date_payer.json'};
+function RenderCharts(creds) {
     //console.log('s3: '+awsBucket+'/html/estimate_month_to_date_payer.json')
-    var jsondata = ''
 
+    /*
+    awstoken = {
+     expireTime: AWS.config.credentials.expireTime,
+     accessKeyId: AWS.config.credentials.accessKeyId,
+     sessionToken: AWS.config.credentials.sessionToken,
+     secretAccessKey: AWS.config.credentials.secretAccessKey
+    };
+    */
+
+    var pathname = window.location.pathname.split('/');
+    var awsBucket = pathname[1];
+
+    var s3 = new AWS.S3({
+        apiVersion: '2006-03-01',
+        params: {Bucket: awsBucket},
+        accessKeyId: awstoken.accessKeyId,
+        secretAccessKey: awstoken.secretAccessKey,
+        sessionToken: awstoken.sessionToken
+    });
+
+    var jsondata = ''
+    var params = {Key: 'html/estimate_month_to_date_payer.json'};
     s3.getObject(params, function(err, data) {
             if (err){
                 console.log(err, err.stack);
@@ -56,8 +73,9 @@ $(document).ready(function() {
             }
         }
      });
-
 }
+
+$(document).ready(function() {
 
     $('#login').on('click', function (e) {
         $('#id01').modal('toggle');
@@ -189,17 +207,7 @@ $(document).ready(function() {
                         secretAccessKey: AWS.config.credentials.secretAccessKey
                       };
 
-                      var pathname = window.location.pathname.split('/');
-                      var awsBucket = pathname[1]
-
-                      var s3 = new AWS.S3({
-                        apiVersion: '2006-03-01',
-                        params: {Bucket: awsBucket},
-                        credentials: AWS.config.credentials
-                      });
-
                       RenderCharts();
-
                     }
                 });
             },
