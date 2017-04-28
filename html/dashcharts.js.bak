@@ -150,7 +150,7 @@ $(document).ready(function() {
                     else
                     {
                       //console.log('identityId is: ' + AWS.config.credentials.identityId);
-
+                      /*
                       awstoken = {
                         expireTime: AWS.config.credentials.expireTime,
                         accessKeyId: AWS.config.credentials.accessKeyId,
@@ -175,17 +175,17 @@ $(document).ready(function() {
                                 console.log(err, err.stack);
                                 sweetAlert("Error accessing S3", err, "error");
                             } else{
-                                body = data.Body.toString();
-                                console.log(body);
+                                jsondata = data.Body.toString();
+                                console.log(jsondata);
                             }
                         });
 
-                    //var rst = '["x","11-2016","12-2016","01-2017","02-2017","03-2017","04-2017"], ["514046899996",0,0,0,0,0,54.94515], ["745716881695",0,0,0,0,0,111.70255]'
+*/
 
-                    var barChart = c3.generate({
+                        var barChart = c3.generate({
                             bindto: '#last6month',
                             data: {
-                                columns: JSON.parse("[" + body + "]"),
+                                json: [ { "x" : ["11-2016","12-2016","01-2017","02-2017","03-2017","04-2017"], "514046899996" : [0,0,0,0,0,54.94515], "745716881695" : [0,0,0,0,0,111.70255] }],
                                 x: 'x',
                                 type: 'bar'
                             },

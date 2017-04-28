@@ -153,33 +153,32 @@ class BuildChartData:
 
     def format_c3_json(self, file_name, values_array):
         print(file_name)
-        jsonbody = "{ "
+        body = ""
         for values in values_array:
             for k, v in values.items():
                 count = 0
                 for i in v:
                     if count == 0:
-                        jsonbody = jsonbody + ' "' + str(i) + '" : ['
+                        body = body + '['
                     elif count == len(v) - 1:
                         if (k == "x"):
-                            jsonbody = jsonbody + '"' + str(i) + '"],'
+                            body = body + '"' + str(i) + '"],'
                         else:
-                            jsonbody = jsonbody + str(i) + '],'
+                            body = body + str(i) + '],'
                     else:
                         if (k == "x"):
-                            jsonbody = jsonbody + '"' + str(i) + '",'
+                            body = body + '"' + str(i) + '",'
                         else:
-                            jsonbody = jsonbody + str(i) + ','
+                            body = body + str(i) + ','
 
                     count = count + 1
-        jsonbody = jsonbody[:-1]
-        jsonbody = jsonbody + " }"
+        body = body[:-1]
 
         with open(self.filenamepath + file_name +  ".json", "w") as text_file:
-            print(jsonbody, file=text_file)
+            print(body, file=text_file)
 
         s3 = boto3.client('s3')
-        s3.upload_file(self.filenamepath + file_name + ".json", self.bucket, "html/" + file_name + ".json")
+        s3.upload_file(self.filenamepath + file_name + ".json", self.bucket, "html/" + file_name + ".txt")
         # print(jsonbody)
 
 
