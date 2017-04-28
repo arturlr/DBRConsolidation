@@ -40,7 +40,7 @@ class BuildChartData:
 
         for payer in payeraccounts:
             dimensions_arr = [{'Name': 'PayerAccountId', 'Value': payer}]
-            c3_data.append({'data': [payer]})
+            c3_data.append({payer: [payer]})
             c3_data_index = c3_data_index + 1
 
             for f in range(5,0,-1):
@@ -52,12 +52,12 @@ class BuildChartData:
                 dt_end = datetime(year, month, num_days[1])
 
                 rsp = self.cw.get_metrics(dimensions_arr, metric_name, dt_start, dt_end, period, 'Maximum')
-                c3_data[c3_data_index]['data'].append(self.get_maximum_datapoint(rsp['Datapoints']))
+                c3_data[c3_data_index][payer].append(self.get_maximum_datapoint(rsp['Datapoints']))
 
             dt_end = datetime.utcnow()
             dt_start = datetime(dt_end.year, dt_end.month, 1)
             rsp = self.cw.get_metrics(dimensions_arr, metric_name, dt_start, dt_end, period, 'Maximum')
-            c3_data[c3_data_index]['data'].append(self.get_maximum_datapoint(rsp['Datapoints']))
+            c3_data[c3_data_index][payer].append(self.get_maximum_datapoint(rsp['Datapoints']))
 
         return c3_data
 
@@ -100,7 +100,7 @@ class BuildChartData:
 
                     for h in hours_sorted:
                         c3_data[0]['x'].append(h['Timestamp'].strftime('%H-%M'))
-                        c3_data[c3_data_index]['data'].append(h['Maximum'])
+                        c3_data[c3_data_index][payer].append(h['Maximum'])
 
 
     def get_per_hour(self, payer_accounts, metric_name):
@@ -115,7 +115,7 @@ class BuildChartData:
             c3_data_hour[c3_data_hour_index]['x'].append(dt.isoformat() + 'Z')
 
         for payer in payeraccounts:
-            c3_data_hour.append({'data': [payer]})
+            c3_data_hour.append({payer: [payer]})
             c3_data_hour_index = c3_data_hour_index + 1
 
             dimensions_arr = [{'Name': 'PayerAccountId', 'Value': payer}]
@@ -130,12 +130,12 @@ class BuildChartData:
                 flag_found = False
                 for dp in hours_sorted:
                     if dp['Timestamp'].hour == dt.hour and dp['Timestamp'].day == dt.day:
-                        c3_data_hour[c3_data_hour_index]['data'].append(dp['Maximum'])
+                        c3_data_hour[c3_data_hour_index][payer].append(dp['Maximum'])
                         # print(payer + ' : ' + dt.strftime('%x-%X') + ' - ' + str(dp['Maximum']))
                         flag_found = True
                         break
                 if flag_found == False:
-                    c3_data_hour[c3_data_hour_index]['data'].append(0)
+                    c3_data_hour[c3_data_hour_index][payer].append(0)
                     # print(payer + ' : ' + dt.strftime('%x-%X') + ' - ' + '0')
 
         return c3_data_hour
@@ -159,7 +159,7 @@ class BuildChartData:
                 count = 0
                 for i in v:
                     if count == 0:
-                        body = body + '['
+                        body = body + '["' + str(k) + '",'
                     elif count == len(v) - 1:
                         if (k == "x"):
                             body = body + '"' + str(i) + '"],'
@@ -179,17 +179,12 @@ class BuildChartData:
 
         s3 = boto3.client('s3')
         s3.upload_file(self.filenamepath + file_name + ".json", self.bucket, "html/" + file_name + ".txt")
-        # print(jsonbody)
+        print(body)
 
 
 ###################################
 #
 # Initialize Variable
-
-if len(sys.argv) != 4:
-    print('Invalid arguments. Please use aws_key aws_secret payeraccountid;payeraccountid;...')
-    sys.exit(1)
-
 
 payeraccounts = sys.argv[3].split(';')
 
@@ -220,6 +215,3 @@ for item in c3_data:
         bch.format_c3_json(file_name, values_array)
 
 #print(c3_data)
-
-
-
