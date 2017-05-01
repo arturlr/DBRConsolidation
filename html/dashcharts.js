@@ -24,6 +24,19 @@ var CLIENT_ID = '7b6ejd42btgrtip7nvm5vd2jm';
 
 var awstoken;
 
+var barChart = c3.generate({
+    bindto: '#last6month',
+    data: {
+        columns: [],
+        x: 'x',
+        type: 'bar'
+    },
+    axis: {
+        x: {
+            type: 'category' // this needed to load string x value
+        }
+    }
+});
 
 $(document).ready(function() {
 
@@ -151,51 +164,32 @@ $(document).ready(function() {
                     {
                       //console.log('identityId is: ' + AWS.config.credentials.identityId);
 
+                      /*
                       awstoken = {
                         expireTime: AWS.config.credentials.expireTime,
                         accessKeyId: AWS.config.credentials.accessKeyId,
                         sessionToken: AWS.config.credentials.sessionToken,
                         secretAccessKey: AWS.config.credentials.secretAccessKey
-                      };
+                      }; */
 
                     var pathname = window.location.pathname.split('/');
                     var awsBucket = pathname[1];
 
-                    var s3 = new AWS.S3({
-                 //       apiVersion: '2006-03-01',
-                 //       accessKeyId: awstoken.accessKeyId,
-                 //       secretAccessKey: awstoken.secretAccessKey,
-                 //       sessionToken: awstoken.sessionToken
-                    });
+                    var s3 = new AWS.S3();
 
-                    var jsondata = ''
-                    var params = {Bucket: awsBucket, Key: 'html/estimate_month_to_date_payer.json'};
+                    var s3content = ''
+                    var params = {Bucket: awsBucket, Key: 'html/estimate_month_to_date_payer.txt'};
                     s3.getObject(params, function(err, data) {
                             if (err){
                                 console.log(err, err.stack);
                                 sweetAlert("Error accessing S3", err, "error");
                             } else{
-                                body = data.Body.toString();
-                                console.log(body);
+                                s3content = data.Body.toString();
+                                barChart.load({
+                                    columns: JSON.parse("[" + s3content + "]")
+                                });
                             }
                         });
-
-                    //var rst = '["x","11-2016","12-2016","01-2017","02-2017","03-2017","04-2017"], ["514046899996",0,0,0,0,0,54.94515], ["745716881695",0,0,0,0,0,111.70255]'
-
-                    var barChart = c3.generate({
-                            bindto: '#last6month',
-                            data: {
-                                columns: JSON.parse("[" + body + "]"),
-                                x: 'x',
-                                type: 'bar'
-                            },
-                        axis: {
-                            x: {
-                                type: 'category' // this needed to load string x value
-                            }
-                        }
-                     });
-
                     }
                 });
 
