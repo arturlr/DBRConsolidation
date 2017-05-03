@@ -38,6 +38,23 @@ var barChart = c3.generate({
     }
 });
 
+
+var barChart = c3.generate({
+    bindto: '#servicedailychart',
+    data: {
+        columns: [],
+        x: 'x',
+        type: 'line'
+    },
+    axis: {
+        x: {
+            type: 'category' // this needed to load string x value
+        }
+    }
+});
+
+
+
 $(document).ready(function() {
 
     $('#login').on('click', function (e) {
