@@ -28,6 +28,7 @@ TEMPDIR="/media/ephemeral0/"
 
 UPLOAD_BUCKET=artrodri
 DATE_SUFFIX=$(date +%Y-%m)
+#DATE_SUFFIX=$(date -d "-2 days" +%Y-%m)
 PAYERSACCOUNTS=$3
 ACCTS=$(echo $PAYERSACCOUNTS | tr ";" "\n")
 
