@@ -240,11 +240,11 @@ metric_name = 'Estimate Per Hour Payer'
 response = bch.get_per_hour(payeraccounts,metric_name)
 c3_data.append({metric_name:response})
 
-metric_name = 'Estimate Month-to-Date Services'
+metric_name = 'Estimate Services Per Hour Payer'
 response = bch.get_services(payeraccounts, metric_name,'daily')
 c3_data.append({metric_name:response})
 
-metric_name = 'Estimate Month-to-Date Services'
+metric_name = 'Estimate Services Per Hour Payer'
 response = bch.get_services(payeraccounts, metric_name,'hourly')
 c3_data.append({metric_name:response})
 
