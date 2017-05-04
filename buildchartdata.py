@@ -62,20 +62,31 @@ class BuildChartData:
         return c3_data
 
 
-    def get_services(self, payer_account, metric_name, range):
-        if range == 'daily':
-            period = 86400
-            dt_end = datetime.utcnow()
-            dt_start = datetime(dt_end.year, dt_end.month, 1)
-        else:
-            period = 600
-            dt_end = datetime.utcnow()
-            dt_start = datetime.utcnow() - timedelta(days=1)
-
+    def get_services(self, payeraccounts, metric_name, duration):
         list_svc = []
 
         c3_data = [{'x': ['x']}]
         c3_data_index = 0
+
+        if duration == 'daily':
+            period = 86400
+            dt_end = datetime.utcnow()
+            dt_start = dt_end - relativedelta(months=1)
+            # Populate with the date range
+            for f in range(29,0,-1):
+                dt_ref = datetime.utcnow() - relativedelta(days=f)
+                month = dt_ref.month
+                year = dt_ref.year
+                c3_data[c3_data_index]['x'].append(dt_ref.strftime('%Y-%m-%d'))
+
+        else:
+            period = 600
+            dt_end = datetime.utcnow()
+            dt_start = datetime.utcnow() - timedelta(days=1)
+            # Populate with the date range
+            for f in range(23,0,-1):
+                dt_ref = datetime.utcnow() - relativedelta(hours=f)
+                c3_data[c3_data_index]['x'].append(dt_ref.strftime('%H-%M'))
 
         # Consolidating all the services into one list
         for payer in payeraccounts:
@@ -89,21 +100,48 @@ class BuildChartData:
 
         for payer in payeraccounts:
             for svc in list_svc:
+                c3_data.append({payer + '-' + svc: [payer + '-' + svc]})
+                c3_data_index = c3_data_index + 1
                 dimensions_arr = [{'Name': 'PayerAccountId', 'Value': payer},
                                   {'Name': 'ProductName', 'Value': svc}]
 
-                if range == 'daily':
+                if duration == 'daily':
                     rsp = self.cw.get_metrics(dimensions_arr, metric_name, dt_start, dt_end, period, 'Maximum')
+                    if len(rsp['Datapoints']) == 0:
+                        for f in range(29,0,-1):
+                            c3_data[c3_data_index][payer + '-' + svc].append(0)
+                    else:
+                        hours_sorted = sorted(rsp['Datapoints'], key=lambda k: k['Timestamp'])
+                        for h in hours_sorted:
+                            for f in range(29,0,-1):
+                                dt_ref = datetime.utcnow() - relativedelta(days=f)
+                                month = dt_ref.month
+                                year = dt_ref.year
+                                if dt_ref.strftime('%Y-%m-%d') == h['Timestamp'].strftime('%Y-%m-%d'):
+                                    c3_data[c3_data_index][payer + '-' + svc].append(h['Maximum'])
+                                    break;
+                                else:
+                                    c3_data[c3_data_index][payer + '-' + svc].append(0)
                 else:
                     rsp = self.cw.get_metrics(dimensions_arr, metric_name, dt_start, dt_end, period, 'Maximum')
-                    hours_sorted = sorted(rsp['Datapoints'], key=lambda k: k['Timestamp'])
+                    if len(rsp['Datapoints']) == 0:
+                        for f in range(23,0,-1):
+                            c3_data[c3_data_index][payer + '-' + svc].append(0)
+                    else:
+                        hours_sorted = sorted(rsp['Datapoints'], key=lambda k: k['Timestamp'])
+                        for h in hours_sorted:
+                            for f in range(23,0,-1):
+                                dt_ref = datetime.utcnow() - relativedelta(hours=f)
+                                if dt_ref.strftime('%H-%M') == h['Timestamp'].strftime('%H-%M'):
+                                    c3_data[c3_data_index][payer + '-' + svc].append(h['Maximum'])
+                                    break;
+                                else:
+                                    c3_data[c3_data_index][payer + '-' + svc].append(0)
 
-                    for h in hours_sorted:
-                        c3_data[0]['x'].append(h['Timestamp'].strftime('%H-%M'))
-                        c3_data[c3_data_index][payer].append(h['Maximum'])
+        return c3_data
 
 
-    def get_per_hour(self, payer_accounts, metric_name):
+    def get_per_hour(self, payeraccounts, metric_name):
         period = 600
 
         c3_data_hour = [{'x': ['x']}]
@@ -204,6 +242,10 @@ c3_data.append({metric_name:response})
 
 metric_name = 'Estimate Month-to-Date Services'
 response = bch.get_services(payeraccounts, metric_name,'daily')
+c3_data.append({metric_name:response})
+
+metric_name = 'Estimate Month-to-Date Services'
+response = bch.get_services(payeraccounts, metric_name,'hourly')
 c3_data.append({metric_name:response})
 
 for item in c3_data:
