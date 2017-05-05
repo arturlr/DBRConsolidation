@@ -37,7 +37,7 @@ client = boto3.client("sts", aws_access_key_id=sys.argv[1], aws_secret_access_ke
 current_account_id = client.get_caller_identity()["Account"]
 
 # Initializating Athena
-ath = aws.classes.Athena(aws_access_key, aws_secret_key, "us-east-1", current_account_id)
+ath = aws.classes.Athena(aws_access_key, aws_secret_key, athRegion, current_account_id)
 
 if dbr_blended == 0:
     query = config['athena']['dbrTable']
