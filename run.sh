@@ -23,27 +23,29 @@ run sudo mv ~/config ~/.aws/.
 # Add Drill to PATH
 export PATH=/opt/drill/bin:$PATH
 
-TEMPDIR="/media/ephemeral0/"
-#TEMPDIR="/temp/"
-
-UPLOAD_BUCKET=artrodri
-DATE_SUFFIX=$(date +%Y-%m)
-#DATE_SUFFIX=$(date -d "-2 days" +%Y-%m)
-PAYERSACCOUNTS=$3
-ACCTS=$(echo $PAYERSACCOUNTS | tr ";" "\n")
+UPLOAD_BUCKET=$4
 
 run sudo hostname localhost
 
 # Start Athena Proxy
 PORT=10000 java -cp ./athenaproxy/athenaproxy.jar com.getredash.awsathena_proxy.API . &
 
-for acct in $ACCTS
-do
-   IFS=', ' read -r -a array <<< "$acct"
-   if [ "${#array[@]}" -ne 2 ]; then
-      echo "Missing parameter for ${acct}"
-      continue
-   fi
+function convert {
+
+    DATE_SUFFIX=$2
+
+    TEMPDIR="/media/ephemeral0/"
+    #TEMPDIR="/temp/"
+
+    ACCTS=$(echo $1 | tr ";" "\n")
+
+    for acct in $ACCTS
+    do
+        IFS=', ' read -r -a array <<< "$acct"
+            if [ "${#array[@]}" -ne 2 ]; then
+                echo "Missing parameter for ${acct}"
+                continue
+            fi
    AWS_ACCOUNT_ID=${array[0]}
    DBR_BUCKET=${array[1]}
 
@@ -66,7 +68,7 @@ do
 
 ## Fetch current DBR file and unzip
    echo "Fetching DBR at $DBRFILES3"
-   run aws s3 cp $DBRFILES3 $TEMPDIR --quiet
+   run aws s3 cp $DBRFILES3 $TEMPDIR
    run unzip -qq $TEMPDIR$DBRFILEFS -d $TEMPDIR
 
    unset AWS_ACCESS_KEY_ID
@@ -102,6 +104,15 @@ do
     sudo rm $TEMPDIR$DBRFILEFS_CSV
 
 done
+
+}
+
+
+DATE_SUFFIX_CURRENT=$(date +%Y-%m)
+DATE_SUFFIX_YESTERDAY=$(date -d "-1 days" +%Y-%m)
+PAYERSACCOUNTS=$3
+
+convert $PAYERSACCOUNTS $DATE_SUFFIX_CURRENT
 
 echo "Copying html files"
 aws s3 cp html/dashcharts.js s3://${UPLOAD_BUCKET}/html/dashcharts.js --acl public-read

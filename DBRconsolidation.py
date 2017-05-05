@@ -14,6 +14,12 @@ import aws.classes
 config = configparser.ConfigParser()
 config.read('DBRconsolidation.ini')
 
+# Athena Region
+athRegion = config['athena']['region']
+
+if athRegion is None:
+    athRegion = 'us-east-1'
+
 # AWS AccountID
 reg = re.compile(r'([0-9]{12})', re.I)
 
