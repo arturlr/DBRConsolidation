@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9bd571f8-cc4b-4b32-8241-9c8efdf65ce2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DBRconsolidation.py" afterPath="$PROJECT_DIR$/DBRconsolidation.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/buildchartdata.py" afterPath="$PROJECT_DIR$/buildchartdata.py" />
     </list>
     <ignored path="DBRConsolidation.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,8 +25,8 @@
       <file leaf-file-name="DBRconsolidation.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DBRconsolidation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="44" column="5" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
+            <state relative-caret-position="870">
+              <caret line="58" column="22" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="22" />
               <folding>
                 <element signature="e#19#30#0" expanded="true" />
               </folding>
@@ -37,10 +37,11 @@
       <file leaf-file-name="buildchartdata.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/buildchartdata.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="25" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
+            <state relative-caret-position="225">
+              <caret line="154" column="18" selection-start-line="154" selection-start-column="17" selection-end-line="154" selection-end-column="18" />
               <folding>
                 <element signature="e#19#30#0" expanded="true" />
+                <element signature="e#875#2408#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -136,12 +137,12 @@
         <option value="$PROJECT_DIR$/aws/classes.py" />
         <option value="$PROJECT_DIR$/html/DBRdashboard.html" />
         <option value="$PROJECT_DIR$/html/dashcharts.js" />
-        <option value="$PROJECT_DIR$/buildchartdata.py" />
         <option value="$PROJECT_DIR$/build.sh" />
         <option value="$PROJECT_DIR$/last_month_full_import.sh" />
         <option value="$PROJECT_DIR$/DBRconsolidation.ini" />
         <option value="$PROJECT_DIR$/run.sh" />
         <option value="$PROJECT_DIR$/DBRconsolidation.py" />
+        <option value="$PROJECT_DIR$/buildchartdata.py" />
       </list>
     </option>
   </component>
@@ -442,6 +443,7 @@
           <caret line="37" column="20" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="20" />
           <folding>
             <element signature="e#19#30#0" expanded="true" />
+            <element signature="e#875#2408#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -521,6 +523,7 @@
           <caret line="187" column="21" selection-start-line="187" selection-start-column="21" selection-end-line="187" selection-end-column="21" />
           <folding>
             <element signature="e#19#30#0" expanded="true" />
+            <element signature="e#875#2408#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -638,33 +641,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/html/DBRdashboard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="55" column="42" selection-start-line="55" selection-start-column="25" selection-end-line="55" selection-end-column="42" />
-          <folding>
-            <element signature="n#style#0;n#h4#0;n#li#0;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#p#0;n#li#3;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#5;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#6;n#body#0;n#!!top" expanded="true" />
-            <marker date="1493346289000" expanded="false" signature="3758:3771" ph="..." />
-            <marker date="1493346289000" expanded="false" signature="4518:4531" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/buildchartdata.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="25" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
-          <folding>
-            <element signature="e#19#30#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/last_month_full_import.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -699,6 +675,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/html/DBRdashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="55" column="42" selection-start-line="55" selection-start-column="25" selection-end-line="55" selection-end-column="42" />
+          <folding>
+            <element signature="n#style#0;n#h4#0;n#li#0;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#0;n#li#3;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#5;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#6;n#body#0;n#!!top" expanded="true" />
+            <marker date="1493346289000" expanded="false" signature="3758:3771" ph="..." />
+            <marker date="1493346289000" expanded="false" signature="4518:4531" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/DBRconsolidation.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -707,10 +700,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/buildchartdata.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="154" column="18" selection-start-line="154" selection-start-column="17" selection-end-line="154" selection-end-column="18" />
+          <folding>
+            <element signature="e#19#30#0" expanded="true" />
+            <element signature="e#875#2408#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/DBRconsolidation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="44" column="5" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
+        <state relative-caret-position="870">
+          <caret line="58" column="22" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="22" />
           <folding>
             <element signature="e#19#30#0" expanded="true" />
           </folding>

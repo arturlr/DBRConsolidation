@@ -100,43 +100,38 @@ class BuildChartData:
 
         for payer in payeraccounts:
             for svc in list_svc:
-                c3_data.append({payer + '-' + svc: [payer + '-' + svc]})
-                c3_data_index = c3_data_index + 1
                 dimensions_arr = [{'Name': 'PayerAccountId', 'Value': payer},
                                   {'Name': 'ProductName', 'Value': svc}]
 
+                rsp = self.cw.get_metrics(dimensions_arr, metric_name, dt_start, dt_end, period, 'Maximum')
+                if len(rsp['Datapoints']) == 0:
+                    continue
+
+                c3_data.append({payer + '-' + svc: [payer + '-' + svc]})
+                c3_data_index = c3_data_index + 1
+
                 if duration == 'daily':
-                    rsp = self.cw.get_metrics(dimensions_arr, metric_name, dt_start, dt_end, period, 'Maximum')
-                    if len(rsp['Datapoints']) == 0:
-                        for f in range(29,0,-1):
-                            c3_data[c3_data_index][payer + '-' + svc].append(0)
-                    else:
-                        hours_sorted = sorted(rsp['Datapoints'], key=lambda k: k['Timestamp'])
-                        for h in hours_sorted:
-                            for f in range(29,0,-1):
-                                dt_ref = datetime.utcnow() - relativedelta(days=f)
-                                month = dt_ref.month
-                                year = dt_ref.year
-                                if dt_ref.strftime('%Y-%m-%d') == h['Timestamp'].strftime('%Y-%m-%d'):
-                                    c3_data[c3_data_index][payer + '-' + svc].append(h['Maximum'])
-                                    break;
-                                else:
-                                    c3_data[c3_data_index][payer + '-' + svc].append(0)
+                    rangepoints = 29
+                    time_format = '%Y-%m-%d'
                 else:
-                    rsp = self.cw.get_metrics(dimensions_arr, metric_name, dt_start, dt_end, period, 'Maximum')
-                    if len(rsp['Datapoints']) == 0:
-                        for f in range(23,0,-1):
+                    rangepoints = 23
+                    time_format = '%H-%M'
+
+
+                hours_sorted = sorted(rsp['Datapoints'], key=lambda k: k['Timestamp'])
+                for h in hours_sorted:
+                    for f in range(rangepoints,0,-1):
+                        if duration == 'daily':
+                            dt_ref = datetime.utcnow() - relativedelta(days=f)
+                        else:
+                            dt_ref = datetime.utcnow() - relativedelta(months=f)
+                        month = dt_ref.month
+                        year = dt_ref.year
+                        if dt_ref.strftime('%Y-%m-%d') == h['Timestamp'].strftime(time_format):
+                            c3_data[c3_data_index][payer + '-' + svc].append(h['Maximum'])
+                            break
+                        else:
                             c3_data[c3_data_index][payer + '-' + svc].append(0)
-                    else:
-                        hours_sorted = sorted(rsp['Datapoints'], key=lambda k: k['Timestamp'])
-                        for h in hours_sorted:
-                            for f in range(23,0,-1):
-                                dt_ref = datetime.utcnow() - relativedelta(hours=f)
-                                if dt_ref.strftime('%H-%M') == h['Timestamp'].strftime('%H-%M'):
-                                    c3_data[c3_data_index][payer + '-' + svc].append(h['Maximum'])
-                                    break;
-                                else:
-                                    c3_data[c3_data_index][payer + '-' + svc].append(0)
 
         return c3_data
 
